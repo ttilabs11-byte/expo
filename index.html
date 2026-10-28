@@ -220,6 +220,13 @@ details[open] .body{animation:open .5s ease}
 /* brochures */
 .shelf{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:16px;margin:0 -16px;padding:4px 16px 12px;scrollbar-width:none}
 .shelf::-webkit-scrollbar{display:none}
+.shelfw{position:relative}
+.sa{position:absolute;top:97px;transform:translateY(-50%);z-index:2;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:#fff;color:var(--nv);box-shadow:0 8px 18px -8px rgba(20,33,61,.5),inset 0 0 0 1px var(--rule);transition:opacity .2s,background .2s,color .2s}
+.sa:hover{background:var(--nv);color:#fff}
+.sa svg{width:16px;height:16px}
+.sa.prev{left:-8px}.sa.prev svg{transform:rotate(90deg)}
+.sa.next{right:-8px}.sa.next svg{transform:rotate(-90deg)}
+.sa:disabled{opacity:0;pointer-events:none}
 .bk{flex:none;width:132px;scroll-snap-align:start;text-decoration:none;color:var(--ink)}
 .bk .cv{border-radius:9px;overflow:hidden;aspect-ratio:210/297;background:var(--sky1);box-shadow:0 2px 4px rgba(20,33,61,.12),0 14px 24px -14px rgba(20,33,61,.5);transition:transform .25s ease}
 .bk:hover .cv{transform:translateY(-4px) rotate(-1deg)}
@@ -484,6 +491,9 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
     <details>
       <summary><span class="ic"><svg><use href="#i-book"/></svg></span><span class="t"><b>Read before you visit</b><span>Five brochures, free to download</span></span><span class="chev"><svg><use href="#i-chev"/></svg></span></summary>
       <div class="body">
+        <div class="shelfw">
+        <button class="sa prev" type="button" aria-label="Previous brochures" disabled><svg><use href="#i-chev"/></svg></button>
+        <button class="sa next" type="button" aria-label="Next brochures"><svg><use href="#i-chev"/></svg></button>
         <div class="shelf">
           <a class="bk" href="https://framerusercontent.com/assets/Hmpnhw7TOvq6cdcWuc8xFCmmVg.pdf" target="_blank" rel="noopener"><div class="cv"><img src="assets/img/cover-sustain.webp" alt="Sustainability Services brochure cover" loading="lazy" width="420" height="594"></div><b>Sustainability Services</b><span><svg><use href="#i-dl"/></svg>12 pages · PDF</span></a>
           <a class="bk" href="https://framerusercontent.com/assets/pEc2pqDZUKbGyPdx9HfeWnPzvpU.pdf" target="_blank" rel="noopener"><div class="cv"><img src="assets/img/cover-ppwr.webp" alt="PPWR Packaging Compliance brochure cover" loading="lazy" width="420" height="594"></div><b>PPWR Packaging Compliance</b><span><svg><use href="#i-dl"/></svg>16 pages · PDF</span></a>
@@ -491,7 +501,8 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
           <a class="bk" href="https://framerusercontent.com/assets/exf9PYyGnmlSxlgAH3oPGj1dKUE.pdf" target="_blank" rel="noopener"><div class="cv"><img src="assets/img/cover-tof.webp" alt="TOF and PFAS Screening brochure cover" loading="lazy" width="420" height="594"></div><b>TOF &amp; PFAS Screening</b><span><svg><use href="#i-dl"/></svg>4 pages · PDF</span></a>
           <a class="bk" href="https://framerusercontent.com/assets/0CG6wTbmAmyjaf6K18P5i9BBOo.pdf" target="_blank" rel="noopener"><div class="cv"><img src="assets/img/cover-profile.webp" alt="Corporate Profile 2026 cover" loading="lazy" width="420" height="594"></div><b>Corporate Profile 2026</b><span><svg><use href="#i-dl"/></svg>24 pages · PDF</span></a>
         </div>
-        <p class="swipe">Swipe for all five →</p>
+        </div>
+        <p class="swipe">Swipe or use the arrows to see all five</p>
       </div>
     </details>
 
@@ -516,11 +527,11 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
     <details>
       <summary><span class="ic"><svg><use href="#i-user"/></svg></span><span class="t"><b>Your host</b><span>Naeem A. Butt, Executive Director</span></span><span class="chev"><svg><use href="#i-chev"/></svg></span></summary>
       <div class="body">
-        <div class="hostc"><div class="av" aria-hidden="true">NB</div><div><b>Naeem A. Butt</b><span>Executive Director, Sustainability Center<br>Tti Testing Laboratories</span></div></div>
+        <div class="hostc"><div class="av" aria-hidden="true">NB</div><div><b>Naeem A. Butt</b><span>Executive Director, Environment &amp; Sustainability<br>Tti Testing Laboratories</span></div></div>
         <div class="contact">
           <a class="btn b-wa" id="wa-direct" href="https://wa.me/923011149706" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>WhatsApp</a>
           <a class="btn b-ghost" href="tel:+923011149706"><svg><use href="#i-phone"/></svg>Call</a>
-          <a class="btn b-ghost mail" href="mailto:sustainability@ttilabs.net?subject=Green%20Pakistan%20Expo%202026"><svg><use href="#i-mail"/></svg>sustainability@ttilabs.net</a>
+          <a class="btn b-ghost mail" href="mailto:naeem.butt@ttilabs.net?subject=Green%20Pakistan%20Expo%202026"><svg><use href="#i-mail"/></svg>naeem.butt@ttilabs.net</a>
         </div>
       </div>
     </details>
@@ -668,6 +679,17 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
     setBar("#d-d", d / 30); setBar("#d-h", h / 24); setBar("#d-m", m / 60); setBar("#d-s", sec / 60);
   }
   tick(); setInterval(tick, 1000);
+
+  // ---- brochure shelf arrows: scroll two covers at a time, hide at either end ----
+  $$(".shelfw").forEach(w => {
+    const sh = w.querySelector(".shelf"), pv = w.querySelector(".prev"), nx = w.querySelector(".next");
+    const upd = () => { pv.disabled = sh.scrollLeft < 4; nx.disabled = sh.scrollLeft + sh.clientWidth > sh.scrollWidth - 4; };
+    pv.onclick = () => sh.scrollBy({ left: -288, behavior: "smooth" });
+    nx.onclick = () => sh.scrollBy({ left: 288, behavior: "smooth" });
+    sh.addEventListener("scroll", upd, { passive: true });
+    if ("ResizeObserver" in window) new ResizeObserver(upd).observe(sh);
+    upd();
+  });
 
   // ---- the map loads only when "Where" is opened ----
   $("#where").addEventListener("toggle", e => {
