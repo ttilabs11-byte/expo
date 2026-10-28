@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Invitation link maker · Tti Labs Sustainability Center</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="assets/img/favicon.png">
+<style>
+@font-face{font-family:"Inter";font-weight:400;src:url(assets/fonts/inter-latin-400.woff2) format("woff2")}
+@font-face{font-family:"Inter";font-weight:600;src:url(assets/fonts/inter-latin-600.woff2) format("woff2")}
+@font-face{font-family:"Inter";font-weight:700;src:url(assets/fonts/inter-latin-700.woff2) format("woff2")}
+@font-face{font-family:"Inter Tight";font-weight:800;src:url(assets/fonts/inter-tight-latin-800.woff2) format("woff2")}
+:root{--nv:#1B3564;--blu:#2C63A8;--lm:#D3DF38;--paper:#F4F6FA;--ink:#14213D;--mute:#56637A;--rule:#DCE3EC;--wa:#25D366}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Inter",system-ui,sans-serif;background:var(--paper);color:var(--ink);padding:28px 16px 60px}
+.w{max-width:860px;margin:0 auto}
+header{display:flex;align-items:center;gap:12px}
+header img{height:36px}
+.k{font-weight:700;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--blu)}
+h1{font-family:"Inter Tight","Inter",sans-serif;font-weight:800;font-size:32px;letter-spacing:-.03em;color:var(--nv);margin-top:22px}
+p.l{margin-top:8px;color:var(--mute);line-height:1.55;max-width:640px}
+.box{background:#fff;border-radius:20px;padding:20px;margin-top:22px;box-shadow:0 14px 34px -24px rgba(20,33,61,.4)}
+label{display:block;font-weight:700;font-size:14px;margin-bottom:8px}
+label span{font-weight:400;color:var(--mute)}
+textarea{width:100%;min-height:150px;border:1.5px solid var(--rule);border-radius:14px;padding:12px 14px;font:15px/1.6 "Inter",sans-serif;color:var(--ink);resize:vertical}
+textarea:focus{outline:none;border-color:var(--blu)}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.btn{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 18px;border-radius:99px;border:0;font:700 14.5px "Inter",sans-serif;cursor:pointer;text-decoration:none}
+.b-ink{background:var(--nv);color:#fff}.b-ink:hover{background:var(--blu)}
+.b-lime{background:var(--lm);color:var(--nv)}
+.b-ghost{background:#fff;color:var(--nv);box-shadow:inset 0 0 0 1.5px var(--rule)}.b-ghost:hover{box-shadow:inset 0 0 0 1.5px var(--nv)}
+.b-wa{background:var(--wa);color:#06331A}
+.sm{height:36px;padding:0 13px;font-size:13px}
+table{width:100%;border-collapse:collapse;margin-top:6px;font-size:14px}
+th{text-align:left;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);padding:10px 8px;border-bottom:1.5px solid var(--rule)}
+td{padding:12px 8px;border-bottom:1px solid var(--rule);vertical-align:top}
+td.n b{display:block}td.n span{color:var(--mute);font-size:13px}
+td.u{font-family:ui-monospace,monospace;font-size:12px;color:var(--blu);word-break:break-all}
+td.a{white-space:nowrap;text-align:right}
+td.a .btn{margin-left:4px}
+.empty{color:var(--mute);padding:18px 8px}
+.tip{margin-top:14px;font-size:13px;color:var(--mute);line-height:1.55}
+.tip b{color:var(--ink)}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,30px);opacity:0;background:var(--ink);color:#fff;padding:11px 18px;border-radius:99px;font-size:14px;font-weight:600;transition:all .3s}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+@media(max-width:640px){td.a{white-space:normal}td.a .btn{margin:4px 0 0}thead{display:none}tr{display:block;border-bottom:1px solid var(--rule);padding:8px 0}td{display:block;border:0;padding:4px 0}td.a{text-align:left}}
+</style>
+</head>
+<body>
+<div class="w">
+  <header><img src="assets/img/tti-icon.webp" alt="Tti Labs" width="48" height="36"><div class="k">Sustainability Center · Green Pakistan Expo 2026</div></header>
+  <h1>Invitation link maker</h1>
+  <p class="l">One guest per line, as <b>Name, Company</b> (the company is optional). Each guest gets a personal link that opens their own sealed invitation. Names stay inside the link and are never stored on any server.</p>
+
+  <div class="box">
+    <label for="names">Guests <span>· one per line</span></label>
+    <textarea id="names" placeholder="Mr. Ahmed Raza, Nishat Mills&#10;Ms. Sana Iqbal, Interloop Limited&#10;Dr. Faisal Khan"></textarea>
+    <div class="row">
+      <button class="btn b-ink" id="go" type="button">Make links</button>
+      <button class="btn b-ghost" id="copyall" type="button">Copy all messages</button>
+      <button class="btn b-ghost" id="csv" type="button">Download CSV</button>
+      <a class="btn b-lime" href="./" target="_blank" rel="noopener">Open general invitation</a>
+    </div>
+    <p class="tip"><b>Tip:</b> "Share on WhatsApp" opens WhatsApp with the guest's message and link ready; you pick the contact. The link preview shows the generic invitation card; the guest's name appears once they open it.</p>
+  </div>
+
+  <div class="box">
+    <table>
+      <thead><tr><th>Guest</th><th>Personal link</th><th style="text-align:right">Send</th></tr></thead>
+      <tbody id="out"><tr><td class="empty" colspan="3">Your links will appear here.</td></tr></tbody>
+    </table>
+  </div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+(() => {
+  const $ = s => document.querySelector(s);
+  const base = new URL("./", location.href).href;
+  let rows = [];
+  const enc = v => encodeURIComponent(v).replace(/%20/g, "+");
+  const link = (n, c) => base + "#n=" + enc(n) + (c ? "&c=" + enc(c) : "");
+  const msg = r => "Dear " + r.n + ",\n\nThe Tti Labs Sustainability Center cordially invites you to visit us at Green Pakistan Expo 2026, Hall 2, Expo Centre Lahore, 26 to 28 November, 10:00 AM to 6:00 PM.\n\nYour personal invitation and RSVP:\n" + r.url + "\n\nBecause every claim now needs proof.";
+  function parse() {
+    rows = $("#names").value.split(/\r?\n/).map(l => l.trim()).filter(Boolean).map(l => {
+      const i = l.indexOf(","), n = (i < 0 ? l : l.slice(0, i)).trim(), c = i < 0 ? "" : l.slice(i + 1).trim();
+      return { n, c, url: link(n, c) };
+    }).filter(r => r.n);
+    const out = $("#out"); out.textContent = "";
+    if (!rows.length) { out.innerHTML = '<tr><td class="empty" colspan="3">Add at least one name.</td></tr>'; return; }
+    rows.forEach((r, i) => {
+      const tr = document.createElement("tr");
+      const tn = document.createElement("td"); tn.className = "n";
+      const b = document.createElement("b"); b.textContent = r.n; tn.append(b);
+      if (r.c) { const s = document.createElement("span"); s.textContent = r.c; tn.append(s); }
+      const tu = document.createElement("td"); tu.className = "u"; tu.textContent = r.url;
+      const ta = document.createElement("td"); ta.className = "a";
+      const mk = (t, cls, fn) => { const x = document.createElement(fn ? "button" : "a"); x.className = "btn sm " + cls; x.textContent = t; if (fn) { x.type = "button"; x.onclick = fn; } return x; };
+      const wa = mk("Share on WhatsApp", "b-wa"); wa.href = "https://wa.me/?text=" + encodeURIComponent(msg(r)); wa.target = "_blank"; wa.rel = "noopener";
+      const op = mk("Preview", "b-ghost"); op.href = r.url; op.target = "_blank"; op.rel = "noopener";
+      ta.append(mk("Copy message", "b-ink", () => copy(msg(r), "Message copied")), mk("Copy link", "b-ghost", () => copy(r.url, "Link copied")), wa, op);
+      tr.append(tn, tu, ta); out.append(tr);
+    });
+  }
+  async function copy(t, ok) { try { await navigator.clipboard.writeText(t); toast(ok); } catch (e) { prompt("Copy:", t); } }
+  let tt; function toast(t) { const el = $("#toast"); el.textContent = t; el.classList.add("on"); clearTimeout(tt); tt = setTimeout(() => el.classList.remove("on"), 2000); }
+  $("#go").onclick = parse;
+  $("#copyall").onclick = () => { parse(); if (rows.length) copy(rows.map(msg).join("\n\n----------\n\n"), rows.length + " messages copied"); };
+  $("#csv").onclick = () => {
+    parse(); if (!rows.length) return;
+    const q = v => '"' + String(v).replace(/"/g, '""') + '"';
+    const csv = "﻿Name,Company,Link,Message\r\n" + rows.map(r => [r.n, r.c, r.url, msg(r)].map(q).join(",")).join("\r\n");
+    const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" })); a.download = "expo-invitation-links.csv"; a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 500);
+  };
+})();
+</script>
+</body>
+</html>
