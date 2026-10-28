@@ -109,9 +109,6 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .dial .num{font:500 13px var(--body);fill:var(--ink);text-anchor:middle}
 .dial .arc{fill:none;stroke:#9DB82A;stroke-width:4.5;stroke-linecap:round;stroke-dasharray:1 1;stroke-dashoffset:1;animation:trace 1.4s cubic-bezier(.65,.05,.25,1) 1.9s forwards}
 .dial .end{fill:#9DB82A;opacity:0;animation:fade .4s ease 3.2s forwards}
-.dial .win{fill:#fff;stroke:var(--rule)}
-.dial .dt{font:500 12.5px var(--mono);fill:var(--nv);text-anchor:middle;font-variant-numeric:tabular-nums}
-.dial .dt tspan{fill:#2F8F5B}
 .dialw small{display:block;margin-top:6px;font-size:9.5px;font-weight:700;letter-spacing:.18em;color:var(--mute)}
 .clock .lbl{display:flex;align-items:center;gap:7px;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--blu);text-align:left}
 .clock .lbl i{width:7px;height:7px;flex:none;border-radius:50%;background:var(--leaf);animation:ping 2s ease-out infinite}
@@ -353,8 +350,6 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
         <g id="ticks"></g>
         <path class="arc" pathLength="1" d="M27.3 58A84 84 0 1 1 100 184"/>
         <circle class="end" cx="27.3" cy="58" r="4.2"/><circle class="end" cx="100" cy="184" r="4.2"/>
-        <rect class="win" x="57" y="122" width="86" height="24" rx="8"/>
-        <text class="dt" x="100" y="138.5"><tspan id="now-hm" style="fill:inherit">--:--</tspan><tspan id="now-s">:--</tspan><tspan id="now-ap" style="fill:inherit"></tspan></text>
         <g id="h-h"><line x1="100" y1="110" x2="100" y2="56" stroke="#14213D" stroke-width="5" stroke-linecap="round"/></g>
         <g id="h-m"><line x1="100" y1="112" x2="100" y2="30" stroke="#14213D" stroke-width="3.2" stroke-linecap="round"/></g>
         <g id="h-s"><line x1="100" y1="118" x2="100" y2="24" stroke="#9DB82A" stroke-width="1.5" stroke-linecap="round"/></g>
@@ -606,12 +601,10 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
     ticks.append(ln);
     if (hr) { const t = document.createElementNS(SVGNS, "text"); t.setAttribute("class", "num"); t.setAttribute("x", (100 + 68 * Math.sin(a)).toFixed(1)); t.setAttribute("y", (104.6 - 68 * Math.cos(a)).toFixed(1)); t.textContent = i / 5 || 12; ticks.append(t); }
   }
-  let shownSec = -1;
   function hands(now, intro) {
     const pk = new Date(now + 5 * 36e5), h = pk.getUTCHours(), m = pk.getUTCMinutes(), sec = pk.getUTCSeconds(), ms = still ? 0 : pk.getUTCMilliseconds();
     const rot = (id, a) => $(id).setAttribute("transform", `rotate(${(a * intro).toFixed(2)} 100 100)`);
     rot("#h-h", (h % 12 + m / 60) * 30); rot("#h-m", (m + sec / 60) * 6); rot("#h-s", (sec + ms / 1000) * 6);
-    if (sec !== shownSec) { shownSec = sec; $("#now-hm").textContent = ((h + 11) % 12 + 1) + ":" + pad(m); $("#now-s").textContent = ":" + pad(sec); $("#now-ap").textContent = h < 12 ? " AM" : " PM"; }
   }
   // the hands sweep in from 12 as the card appears, then run smoothly while the hero is on screen
   hands(Date.now(), still ? 1 : 0);
