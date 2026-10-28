@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Invitation link maker · Tti Labs Sustainability Center</title>
+<title>Invitation link maker · Tti Sustainability Center</title>
 <meta name="robots" content="noindex">
 <link rel="icon" type="image/png" href="assets/img/favicon.png">
 <style>
@@ -80,7 +80,7 @@ td.a .btn{margin-left:4px}
   let rows = [];
   const enc = v => encodeURIComponent(v).replace(/%20/g, "+");
   const link = (n, c) => base + "#n=" + enc(n) + (c ? "&c=" + enc(c) : "");
-  const msg = r => "Dear " + r.n + ",\n\nThe Tti Labs Sustainability Center cordially invites you to visit us at Green Pakistan Expo 2026, Hall 2, Expo Centre Lahore, 26 to 28 November, 10:00 AM to 6:00 PM.\n\nYour personal invitation and RSVP:\n" + r.url + "\n\nBecause every claim now needs proof.";
+  const msg = r => "Dear " + r.n + ",\n\nThe Tti Sustainability Center cordially invites you to visit us at Green Pakistan Expo 2026, Hall 2, Expo Centre Lahore, 26 to 28 November, 10:00 AM to 6:00 PM.\n\nYour personal invitation and RSVP:\n" + r.url + "\n\nBecause every claim now needs proof.";
   function parse() {
     rows = $("#names").value.split(/\r?\n/).map(l => l.trim()).filter(Boolean).map(l => {
       const i = l.search(/[\t,]/), n = (i < 0 ? l : l.slice(0, i)).trim(), c = i < 0 ? "" : l.slice(i + 1).trim();

@@ -1,6 +1,6 @@
 # Green Pakistan Expo 2026 · personal invitation
 
-Tti Labs Sustainability Center invitation page for Green Pakistan Expo 2026: 26 to 28 November 2026, 10:00 AM to 6:00 PM, Hall 2, International Expo Centre Lahore.
+Tti Sustainability Center invitation page for Green Pakistan Expo 2026: 26 to 28 November 2026, 10:00 AM to 6:00 PM, Hall 2, International Expo Centre Lahore.
 
 - Live: https://ttilabs11-byte.github.io/expo/
 - Link maker: https://ttilabs11-byte.github.io/expo/make.html
@@ -49,3 +49,4 @@ The countdown and the "Today" badge use fixed PKT (UTC+5) times. Change `OPEN`, 
 - 2026-10-28 v5.2: "Sustainability Center" in the hero is green (#1A7F44). Every reply action now matches the green button: Accept with WhatsApp, Open WhatsApp again, and the selected day and topic chips. The duplicate scroll cue is removed ("See the details" already goes there). The link maker accepts Excel columns.
 - 2026-10-28 v5.3: the countdown tiles are redesigned as navy split-flap displays (white digits, a centre seam, and a flip when a number changes). A thin lime bar along each tile drains with its unit: days out of 30, hours out of 24, minutes and seconds out of 60.
 - 2026-10-28 v5.4: the analog clock (Lahore time) is replaced by an analog stopwatch that counts down to the same target as the tiles (`swT`, set in `tick()`).
+- 2026-10-28 v5.5: changes from the sustainability team. The name is now "Tti Sustainability Center" everywhere: page, RSVP messages, calendar, link maker and preview card. The GHG card uses the team's wording. The environment card follows the team's flyer: a highlighted ZDHC Sampling & Testing card first, then Water, Air & Noise, Environmental Compliance, and Waste & Resources, then Other Environmental Compliance & Related Services.
