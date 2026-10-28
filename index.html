@@ -48,6 +48,14 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .glow{position:fixed;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0}
 .glow.b{width:560px;height:560px;right:-260px;top:38vh;background:rgba(143,180,232,.35)}
 
+/* drifting line leaves, top of the page only; the column keeps them clear of the text on desktop */
+.leaves{position:absolute;top:0;left:0;right:0;height:100svh;overflow:hidden;pointer-events:none;z-index:0;opacity:0;animation:lv-in 2.4s ease 1.6s forwards;-webkit-mask:linear-gradient(#000 50%,transparent 90%);mask:linear-gradient(#000 50%,transparent 90%)}
+.leaves i{position:absolute;left:var(--x);top:-80px;width:calc(var(--s) * 1.35);height:calc(var(--s) * 1.35);color:var(--c);opacity:.32;animation:lv-fall var(--d) linear var(--t) infinite;will-change:transform}
+.leaves svg{display:block;width:100%;height:100%;animation:lv-sway calc(var(--d) / 4) ease-in-out var(--t) infinite alternate}
+@keyframes lv-in{to{opacity:1}}
+@keyframes lv-fall{to{transform:translate3d(var(--dx),calc(100svh + 160px),0)}}
+@keyframes lv-sway{from{transform:translateX(-18px) rotate(-26deg)}to{transform:translateX(18px) rotate(30deg)}}
+@media (max-width:700px){.leaves i{width:var(--s);height:var(--s);opacity:.26}.leaves i:nth-child(n+5){display:none}}
 .wrap{position:relative;z-index:1;max-width:540px;margin:0 auto;padding:0 var(--pad)}
 
 /* ---------- HERO ---------- */
@@ -294,7 +302,7 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
 .toast{position:fixed;left:50%;bottom:calc(86px + env(safe-area-inset-bottom));transform:translate(-50%,30px);opacity:0;background:var(--ink);color:#fff;padding:11px 18px;border-radius:99px;font-size:14px;font-weight:600;z-index:60;transition:all .35s ease;pointer-events:none;white-space:nowrap}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 
-@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.leaves i{animation:none!important;transform:translateY(calc(var(--y) + 80px))}.leaves svg{animation:none!important;transform:rotate(14deg)}}
 </style>
 </head>
 <body>
@@ -321,10 +329,22 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
     <symbol id="i-water" viewBox="0 0 24 24"><path d="M12 3.5s6 6.5 6 10.5a6 6 0 0 1-12 0c0-4 6-10.5 6-10.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
     <symbol id="i-wind" viewBox="0 0 24 24"><path d="M3 9h11a3 3 0 1 0-3-3M3 13h15a3 3 0 1 1-3 3M3 17h7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
     <symbol id="i-doc" viewBox="0 0 24 24"><path d="M7 3h7l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zM9 14l2 2 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-leafl" viewBox="0 0 40 40"><path d="M7 33C6 19 15 8 34 6c1 17-8 28-27 27zM7 33 26 14M3 37l4-4M13 27v-6M13 27h6M19 21v-6M19 21h6" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></symbol>
     <symbol id="i-bin" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6.5 7l1 13h9l1-13M10 11v6M14 11v6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 5v14m0 0l-6-6m6 6l6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   </defs>
 </svg>
+
+<div class="leaves" aria-hidden="true">
+  <i style="--x:3%;--s:30px;--d:34s;--t:-9s;--dx:24px;--y:34svh;--c:var(--leaf2)"><svg><use href="#i-leafl"/></svg></i>
+  <i style="--x:13%;--s:22px;--d:27s;--t:-21s;--dx:-18px;--y:62svh;--c:var(--blu)"><svg><use href="#i-leafl"/></svg></i>
+  <i style="--x:83%;--s:26px;--d:30s;--t:-3s;--dx:-26px;--y:22svh;--c:var(--leaf)"><svg><use href="#i-leafl"/></svg></i>
+  <i style="--x:91%;--s:32px;--d:38s;--t:-25s;--dx:-14px;--y:52svh;--c:var(--leaf2)"><svg><use href="#i-leafl"/></svg></i>
+  <i style="--x:8%;--s:36px;--d:41s;--t:-31s;--dx:30px;--y:12svh;--c:var(--leaf)"><svg><use href="#i-leafl"/></svg></i>
+  <i style="--x:20%;--s:24px;--d:29s;--t:-14s;--dx:16px;--y:44svh;--c:var(--leaf2)"><svg><use href="#i-leafl"/></svg></i>
+  <i style="--x:76%;--s:34px;--d:36s;--t:-18s;--dx:22px;--y:40svh;--c:var(--blu)"><svg><use href="#i-leafl"/></svg></i>
+  <i style="--x:88%;--s:22px;--d:26s;--t:-7s;--dx:-20px;--y:70svh;--c:var(--leaf)"><svg><use href="#i-leafl"/></svg></i>
+</div>
 
 <div class="wrap">
 
@@ -447,14 +467,14 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
         <div class="s">
           <p class="tag">Environment · ZDHC · EPA</p>
           <h3>Environmental testing</h3>
-          <div class="zdhc"><span class="zi"><svg><use href="#i-bottle"/></svg></span><p><b>ZDHC Sampling &amp; Testing</b>Approved laboratory on the ZDHC Portal</p></div>
+          <div class="zdhc"><span class="zi"><svg><use href="#i-bottle"/></svg></span><p><b>ZDHC Sampling &amp; Testing</b>Pakistan's only local <span style="white-space:nowrap">ZDHC-approved</span> lab</p></div>
           <div class="eg">
-            <div><svg><use href="#i-water"/></svg><b>Water Analysis &amp; Testing</b><span>Drinking water<br>Process water &amp; effluent</span></div>
-            <div><svg><use href="#i-wind"/></svg><b>Air &amp; Noise Monitoring</b><span>Ambient, indoor &amp; stack<br>Noise &amp; lux monitoring</span></div>
-            <div><svg><use href="#i-doc"/></svg><b>Environmental Compliance</b><span>NOCs (IWL) and EIA cases</span></div>
-            <div><svg><use href="#i-bin"/></svg><b>Waste &amp; Resources</b><span>Waste &amp; sludge<br>Testing and assessment</span></div>
+            <div><svg><use href="#i-water"/></svg><b>Water Analysis &amp; Testing</b><span>Drinking water, process water, effluent and wastewater</span></div>
+            <div><svg><use href="#i-wind"/></svg><b>Air &amp; Noise Monitoring</b><span>Ambient, indoor, stack, noise and lux</span></div>
+            <div><svg><use href="#i-doc"/></svg><b>Environmental Compliance</b><span>NOCs (IEE and EIA cases)</span></div>
+            <div><svg><use href="#i-bin"/></svg><b>Sludge Testing</b></div>
           </div>
-          <p class="other">Other Environmental Compliance &amp; Related Services</p>
+          <p class="other">Other Environmental Compliance and Audit-Related Services</p>
           <p class="bring"><b>Bring your last EPA or ZDHC report.</b> We'll plan the next sampling round.</p>
         </div>
       </div></div>
