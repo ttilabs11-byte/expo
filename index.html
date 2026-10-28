@@ -115,11 +115,13 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .clock .lbl i{width:7px;height:7px;flex:none;border-radius:50%;background:var(--leaf);animation:ping 2s ease-out infinite}
 @keyframes ping{0%{box-shadow:0 0 0 0 rgba(95,179,108,.6)}100%{box-shadow:0 0 0 8px rgba(95,179,108,0)}}
 .tiles{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
-.tiles div{background:var(--sky0);border-radius:14px;padding:11px 2px 9px;box-shadow:inset 0 0 0 1px var(--rule);text-align:center}
-.tiles b{display:block;font-family:var(--display);font-weight:800;font-size:clamp(23px,6.6vw,30px);line-height:1;letter-spacing:-.02em;color:var(--nv);font-variant-numeric:tabular-nums}
-.tiles b.f{animation:flip .5s cubic-bezier(.2,.8,.2,1)}
-@keyframes flip{from{transform:translateY(-.3em);opacity:.15}}
-.tiles span{display:block;margin-top:5px;font-size:8px;font-weight:700;letter-spacing:.14em;color:var(--mute)}
+.tiles div{position:relative;overflow:hidden;border-radius:15px;padding:7px 7px 9px;text-align:center;background:linear-gradient(180deg,#1B3564,#0F2140);box-shadow:0 12px 24px -14px rgba(15,33,64,.9),inset 0 1px 0 rgba(255,255,255,.1)}
+.tiles b{position:relative;display:block;padding:8px 0 7px;border-radius:9px;font-family:var(--display);font-weight:800;font-size:clamp(24px,6.8vw,31px);line-height:1;letter-spacing:-.01em;color:#fff;font-variant-numeric:tabular-nums;background:linear-gradient(180deg,rgba(255,255,255,.1) 0 50%,rgba(255,255,255,.04) 50% 100%);transform-origin:50% 50%}
+.tiles b::after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(5,14,32,.7);box-shadow:0 1px 0 rgba(255,255,255,.07)}
+.tiles b.f{animation:flip .55s cubic-bezier(.2,.8,.2,1)}
+@keyframes flip{from{transform:perspective(220px) rotateX(-75deg);opacity:.25}}
+.tiles span{display:block;margin-top:7px;font-size:8px;font-weight:700;letter-spacing:.16em;color:rgba(255,255,255,.62)}
+.tiles i{position:absolute;left:0;bottom:0;width:100%;height:3px;background:linear-gradient(90deg,#9DB82A,#D3DF38);transform-origin:left;transform:scaleX(0);transition:transform 1s linear}
 .clock .msg{margin-top:8px;font-family:var(--display);font-weight:800;font-size:18px;line-height:1.2;color:var(--nv);text-align:left}
 .cta{margin-top:20px;width:100%;display:grid;gap:10px;opacity:0;animation:rise .9s ease 1.75s forwards}
 @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
@@ -357,7 +359,7 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
     </div>
     <div>
       <p class="lbl"><i></i><span id="ro-label">Doors open in</span></p>
-      <div class="tiles" id="digits"><div><b id="d-d">00</b><span>DAYS</span></div><div><b id="d-h">00</b><span>HOURS</span></div><div><b id="d-m">00</b><span>MINUTES</span></div><div><b id="d-s">00</b><span>SECONDS</span></div></div>
+      <div class="tiles" id="digits"><div><b id="d-d">00</b><span>DAYS</span><i></i></div><div><b id="d-h">00</b><span>HOURS</span><i></i></div><div><b id="d-m">00</b><span>MINUTES</span><i></i></div><div><b id="d-s">00</b><span>SECONDS</span><i></i></div></div>
       <p class="msg" id="ro-msg" hidden></p>
     </div>
   </div>
@@ -613,6 +615,8 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
     requestAnimationFrame(loop);
   }
   const setDigit = (id, v) => { const b = $(id); if (b.textContent === v) return; b.textContent = v; if (!still) { b.classList.remove("f"); void b.offsetWidth; b.classList.add("f"); } };
+  // each tile's lime bar drains with its unit; it jumps back without animating when the unit rolls over
+  const setBar = (id, f) => { const i = $(id).parentNode.querySelector("i"), old = +(i.dataset.f || -1); i.style.transition = f > old ? "none" : ""; i.style.transform = `scaleX(${Math.min(1, f).toFixed(4)})`; i.dataset.f = f; };
   function tick() {
     const now = Date.now();
     let target, label, msg = "";
@@ -629,10 +633,9 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
     if (still) hands(now, 1);
     $("#ro-label").textContent = label;
     if (msg) { $("#digits").hidden = true; $("#ro-msg").hidden = false; $("#ro-msg").textContent = msg; return; }
-    let s = Math.max(0, Math.floor((target - now) / 1000));
-    setDigit("#d-d", pad(Math.floor(s / 86400))); s %= 86400;
-    setDigit("#d-h", pad(Math.floor(s / 3600))); s %= 3600;
-    setDigit("#d-m", pad(Math.floor(s / 60))); setDigit("#d-s", pad(s % 60));
+    const s = Math.max(0, Math.floor((target - now) / 1000)), d = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600), m = Math.floor(s % 3600 / 60), sec = s % 60;
+    setDigit("#d-d", pad(d)); setDigit("#d-h", pad(h)); setDigit("#d-m", pad(m)); setDigit("#d-s", pad(sec));
+    setBar("#d-d", d / 30); setBar("#d-h", h / 24); setBar("#d-m", m / 60); setBar("#d-s", sec / 60);
   }
   tick(); setInterval(tick, 1000);
 
