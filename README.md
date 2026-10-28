@@ -11,7 +11,7 @@ Tti Labs Sustainability Center invitation page for Green Pakistan Expo 2026: 26 
 
 - `n` is the guest's name and `c` is their company (optional). Both sit in the URL fragment (after `#`), so the browser never sends them to GitHub. No guest list is stored anywhere.
 - With no name, the page reads "Our honoured guest".
-- `make.html` turns a list of `Name, Company` lines into links. For each guest it can copy the message, copy the link, share on WhatsApp, or preview. It can also export everything as a CSV.
+- `make.html` turns a list of `Name, Company` lines (or two columns pasted from Excel) into links. For each guest it can copy the message, copy the link, share on WhatsApp, or preview. It can also export everything as a CSV.
 
 ## RSVP
 
@@ -46,3 +46,4 @@ The countdown and the "Today" badge use fixed PKT (UTC+5) times. Change `OPEN`, 
 - 2026-10-28 v4: the user asked for a simple line-only leaf or globe animation, not around the logo but below it, and for the clock back as both analog and digital. The growth rings are removed. The logo now stands alone, with a wireframe planet horizon and sprout below it, and the countdown has moved out of the When panel into its own clock section. Image prompts for style references: `../IMAGE-PROMPTS.md` (results go in `../refs/`).
 - 2026-10-28 v5: rebuilt from the user's reference images (`../refs/`, generated from `../IMAGE-PROMPTS.md`) in our palette. The globe now has real coastlines (Natural Earth) with Lahore marked, and the reply button is green (#1A7F44). The dual clock (analog dial with a digital window, plus countdown tiles) replaces the "days to go" pill in the hero, and the separate clock section is gone. `assets/emblems.js` is removed.
 - 2026-10-28 v5.1: the digital window inside the dial is removed, since the countdown tiles beside it already give the digital readout.
+- 2026-10-28 v5.2: "Sustainability Center" in the hero is green (#1A7F44). Every reply action now matches the green button: Accept with WhatsApp, Open WhatsApp again, and the selected day and topic chips. The duplicate scroll cue is removed ("See the details" already goes there). The link maker accepts Excel columns.

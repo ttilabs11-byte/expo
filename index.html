@@ -92,6 +92,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .co{margin-top:6px;font-size:15.5px;font-weight:600;color:var(--mute);opacity:0;animation:rise .9s ease 1.1s forwards}
 .invited{margin-top:20px;font-size:16.5px;line-height:1.5;color:var(--mute);opacity:0;animation:rise .9s ease 1.25s forwards}
 .host-name{display:block;margin-top:4px;font-family:var(--display);font-weight:800;font-size:clamp(23px,6.6vw,30px);letter-spacing:-.025em;line-height:1.1;color:var(--nv)}
+.host-name .grn{color:#1A7F44}
 .at{display:block;margin-top:6px;font-family:var(--serif);font-style:italic;font-size:22px;color:var(--ink)}
 .mark{background:linear-gradient(180deg,transparent 58%,rgba(211,223,56,.75) 58%,rgba(211,223,56,.75) 92%,transparent 92%);padding:0 3px}
 
@@ -121,9 +122,6 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .tiles span{display:block;margin-top:5px;font-size:8px;font-weight:700;letter-spacing:.14em;color:var(--mute)}
 .clock .msg{margin-top:8px;font-family:var(--display);font-weight:800;font-size:18px;line-height:1.2;color:var(--nv);text-align:left}
 .cta{margin-top:20px;width:100%;display:grid;gap:10px;opacity:0;animation:rise .9s ease 1.75s forwards}
-.scroll-cue{margin:22px auto 6px;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--mute);text-decoration:none;opacity:0;animation:rise .9s ease 2.1s forwards}
-.scroll-cue svg{width:18px;height:18px;animation:bob 1.8s ease-in-out infinite}
-@keyframes bob{50%{transform:translateY(4px)}}
 @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 
 /* buttons */
@@ -242,7 +240,7 @@ details[open] .body{animation:open .5s ease}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chip{height:42px;padding:0 15px;border-radius:99px;font-weight:600;font-size:14px;color:var(--nv);background:var(--sky0);box-shadow:inset 0 0 0 1.5px var(--rule);display:inline-flex;align-items:center;gap:7px;transition:background .2s,box-shadow .2s,color .2s}
 .chip:hover{box-shadow:inset 0 0 0 1.5px var(--blu-l)}
-.chip[aria-pressed="true"]{background:var(--nv);color:#fff;box-shadow:none}
+.chip[aria-pressed="true"]{background:#1A7F44;color:#fff;box-shadow:none}
 .chip[aria-pressed="true"]::before{content:"";width:13px;height:13px;background:no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 8.5l3.2 3.2L13 5' fill='none' stroke='%23D3DF38' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
 .acts{display:grid;gap:10px;margin-top:24px}
 .acts .fine{font-size:12.5px;color:var(--mute);text-align:center;line-height:1.45;margin-top:2px}
@@ -334,7 +332,7 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
   <p class="co" id="co" hidden></p>
 
   <p class="invited">You are cordially invited to visit the
-    <span class="host-name">Tti Labs Sustainability Center</span>
+    <span class="host-name">Tti Labs <span class="grn">Sustainability Center</span></span>
     <span class="at">at <span class="mark">Green Pakistan Expo 2026</span></span>
   </p>
 
@@ -368,7 +366,6 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
     <a class="btn b-go full" href="#rsvp"><svg><use href="#i-wa"/></svg>Reply to the invitation</a>
     <a class="btn b-ghost full" href="#details">See the details</a>
   </div>
-  <a class="scroll-cue" href="#details"><span>Everything else, one tap away</span><svg><use href="#i-down"/></svg></a>
 </header>
 
 <!-- ============ DETAILS (tap to open) ============ -->
@@ -530,7 +527,7 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
       </div>
     </div>
     <div class="acts">
-      <button class="btn b-ink full" id="yes" type="button"><svg><use href="#i-wa"/></svg>Accept with WhatsApp</button>
+      <button class="btn b-go full" id="yes" type="button"><svg><use href="#i-wa"/></svg>Accept with WhatsApp</button>
       <button class="btn b-ghost full" id="no" type="button">I can't make it this time</button>
       <p class="fine">Your reply opens WhatsApp with a message ready for Naeem A. Butt. Nothing is sent until you press send.</p>
     </div>
@@ -541,7 +538,7 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
     <h3 id="done-h">We look forward to welcoming you.</h3>
     <p id="done-p"></p>
     <div class="row">
-      <button class="btn b-ink" id="resend" type="button"><svg><use href="#i-wa"/></svg>Open WhatsApp again</button>
+      <button class="btn b-go" id="resend" type="button"><svg><use href="#i-wa"/></svg>Open WhatsApp again</button>
       <button class="btn b-ghost" id="change" type="button">Change response</button>
     </div>
   </div>
