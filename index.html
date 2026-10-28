@@ -106,11 +106,13 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .clock{margin-top:14px;width:100%;display:grid;grid-template-columns:1.05fr 1fr;align-items:center;gap:14px;background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:16px 14px 14px;opacity:0;animation:rise .9s ease 1.6s forwards}
 .dialw{text-align:center}
 .dial{display:block;width:100%;max-width:210px;margin:0 auto;overflow:visible}
+.dial .case{fill:#fff;stroke:#1B3564;stroke-width:5}
 .dial .face{fill:#F7FAFE;stroke:var(--rule)}
-.dial .num{font:500 13px var(--body);fill:var(--ink);text-anchor:middle}
-.dial .arc{fill:none;stroke:#9DB82A;stroke-width:4.5;stroke-linecap:round;stroke-dasharray:1 1;stroke-dashoffset:1;animation:trace 1.4s cubic-bezier(.65,.05,.25,1) 1.9s forwards}
-.dial .end{fill:#9DB82A;opacity:0;animation:fade .4s ease 3.2s forwards}
-.dialw small{display:block;margin-top:6px;font-size:9.5px;font-weight:700;letter-spacing:.18em;color:var(--mute)}
+.dial .crown{fill:#1B3564}
+.dial .num{font:600 11.5px var(--body);fill:var(--ink);text-anchor:middle}
+.dial .sub{fill:#fff;stroke:var(--rule)}
+.dial .sl{font:700 6.5px var(--body);letter-spacing:.12em;fill:var(--mute);text-anchor:middle}
+#sw-arc{fill:none;stroke:#9DB82A;stroke-width:3.4;stroke-linecap:round}
 .clock .lbl{display:flex;align-items:center;gap:7px;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--blu);text-align:left}
 .clock .lbl i{width:7px;height:7px;flex:none;border-radius:50%;background:var(--leaf);animation:ping 2s ease-out infinite}
 @keyframes ping{0%{box-shadow:0 0 0 0 rgba(95,179,108,.6)}100%{box-shadow:0 0 0 8px rgba(95,179,108,0)}}
@@ -345,17 +347,20 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
   </div>
   <div class="clock" id="clock">
     <div class="dialw">
-      <svg class="dial" id="dial" viewBox="0 0 200 200" role="img" aria-label="Lahore time. The green arc marks expo hours, 10 AM to 6 PM.">
-        <circle class="face" cx="100" cy="100" r="97"/>
+      <svg class="dial" id="dial" viewBox="0 0 200 224" role="img" aria-label="Stopwatch counting down: the green arc is what is left of this minute, the small dials show hours and minutes left.">
+        <rect class="crown" x="93" y="19" width="14" height="12" rx="2"/><rect class="crown" x="85" y="8" width="30" height="13" rx="5"/>
+        <rect class="crown" x="94" y="21" width="12" height="12" rx="2.5" transform="rotate(-42 100 124)"/><rect class="crown" x="94" y="21" width="12" height="12" rx="2.5" transform="rotate(42 100 124)"/>
+        <circle class="case" cx="100" cy="124" r="93"/>
+        <circle class="face" cx="100" cy="124" r="86"/>
+        <path id="sw-arc"/>
         <g id="ticks"></g>
-        <path class="arc" pathLength="1" d="M27.3 58A84 84 0 1 1 100 184"/>
-        <circle class="end" cx="27.3" cy="58" r="4.2"/><circle class="end" cx="100" cy="184" r="4.2"/>
-        <g id="h-h"><line x1="100" y1="110" x2="100" y2="56" stroke="#14213D" stroke-width="5" stroke-linecap="round"/></g>
-        <g id="h-m"><line x1="100" y1="112" x2="100" y2="30" stroke="#14213D" stroke-width="3.2" stroke-linecap="round"/></g>
-        <g id="h-s"><line x1="100" y1="118" x2="100" y2="24" stroke="#9DB82A" stroke-width="1.5" stroke-linecap="round"/></g>
-        <circle cx="100" cy="100" r="5.5" fill="#fff" stroke="#14213D" stroke-width="2.6"/>
+        <circle class="sub" cx="100" cy="94" r="17"/><text class="sl" x="100" y="105">HRS</text>
+        <circle class="sub" cx="100" cy="154" r="17"/><text class="sl" x="100" y="165">MIN</text>
+        <g id="sw-h"><line x1="100" y1="96" x2="100" y2="81" stroke="#14213D" stroke-width="1.8" stroke-linecap="round"/><circle cx="100" cy="94" r="2.2" fill="#14213D"/></g>
+        <g id="sw-m"><line x1="100" y1="156" x2="100" y2="141" stroke="#14213D" stroke-width="1.8" stroke-linecap="round"/><circle cx="100" cy="154" r="2.2" fill="#14213D"/></g>
+        <g id="sw-s"><line x1="100" y1="144" x2="100" y2="44" stroke="#1A7F44" stroke-width="1.8" stroke-linecap="round"/><circle cx="100" cy="140" r="3.6" fill="#1A7F44"/></g>
+        <circle cx="100" cy="124" r="4.6" fill="#fff" stroke="#14213D" stroke-width="2.4"/>
       </svg>
-      <small>LAHORE TIME</small>
     </div>
     <div>
       <p class="lbl"><i></i><span id="ro-label">Doors open in</span></p>
@@ -593,17 +598,22 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
   // ---- dual clock: Lahore time on the dial (lime arc = expo hours), the time left in digits ----
   const pad = v => String(v).padStart(2, "0");
   const SVGNS = "http://www.w3.org/2000/svg", ticks = $("#ticks");
+  const line = (x1, y1, x2, y2, op, w) => { const ln = document.createElementNS(SVGNS, "line"); [["x1", x1], ["y1", y1], ["x2", x2], ["y2", y2]].forEach(([k, v]) => ln.setAttribute(k, v.toFixed(1))); ln.setAttribute("stroke", "#14213D"); ln.setAttribute("stroke-opacity", op); ln.setAttribute("stroke-width", w); ln.setAttribute("stroke-linecap", "round"); ticks.append(ln); };
   for (let i = 0; i < 60; i++) {
-    const a = i * Math.PI / 30, hr = i % 5 === 0, r0 = hr ? 88 : 91.5, ln = document.createElementNS(SVGNS, "line");
-    [["x1", 100 + r0 * Math.sin(a)], ["y1", 100 - r0 * Math.cos(a)], ["x2", 100 + 94 * Math.sin(a)], ["y2", 100 - 94 * Math.cos(a)]].forEach(([k, v]) => ln.setAttribute(k, v.toFixed(1)));
-    ln.setAttribute("stroke", "#14213D"); ln.setAttribute("stroke-opacity", hr ? ".85" : ".22"); ln.setAttribute("stroke-width", hr ? "1.8" : "1"); ln.setAttribute("stroke-linecap", "round");
-    ticks.append(ln);
-    if (hr) { const t = document.createElementNS(SVGNS, "text"); t.setAttribute("class", "num"); t.setAttribute("x", (100 + 68 * Math.sin(a)).toFixed(1)); t.setAttribute("y", (104.6 - 68 * Math.cos(a)).toFixed(1)); t.textContent = i / 5 || 12; ticks.append(t); }
+    const a = i * Math.PI / 30, five = i % 5 === 0, r0 = five ? 72 : 76, sn = Math.sin(a), cs = Math.cos(a);
+    line(100 + r0 * sn, 124 - r0 * cs, 100 + 80 * sn, 124 - 80 * cs, five ? ".85" : ".25", five ? "1.8" : "1");
+    if (five) { const t = document.createElementNS(SVGNS, "text"); t.setAttribute("class", "num"); t.setAttribute("x", (100 + 63 * sn).toFixed(1)); t.setAttribute("y", (128 - 63 * cs).toFixed(1)); t.textContent = i || 60; ticks.append(t); }
   }
+  [94, 154].forEach(cy => { for (let i = 0; i < 12; i++) { const a = i * Math.PI / 6; line(100 + 13 * Math.sin(a), cy - 13 * Math.cos(a), 100 + 15.5 * Math.sin(a), cy - 15.5 * Math.cos(a), i % 3 ? ".3" : ".7", "1"); } });
+  // stopwatch: the big hand sweeps each minute, the lime arc is what is left of it, the small dials show hours and minutes left
+  let swT = OPEN;
+  const swAt = a => (100 + 83 * Math.sin(a * Math.PI / 180)).toFixed(2) + " " + (124 - 83 * Math.cos(a * Math.PI / 180)).toFixed(2);
   function hands(now, intro) {
-    const pk = new Date(now + 5 * 36e5), h = pk.getUTCHours(), m = pk.getUTCMinutes(), sec = pk.getUTCSeconds(), ms = still ? 0 : pk.getUTCMilliseconds();
-    const rot = (id, a) => $(id).setAttribute("transform", `rotate(${(a * intro).toFixed(2)} 100 100)`);
-    rot("#h-h", (h % 12 + m / 60) * 30); rot("#h-m", (m + sec / 60) * 6); rot("#h-s", (sec + ms / 1000) * 6);
+    const rem = Math.max(0, swT - now), sec = still ? Math.floor(rem / 1000) % 60 : rem / 1000 % 60;
+    const rot = (id, a, cy) => $(id).setAttribute("transform", `rotate(${(a * intro).toFixed(2)} 100 ${cy})`);
+    rot("#sw-s", (60 - sec) % 60 * 6, 124); rot("#sw-m", Math.floor(rem / 6e4) % 60 * 6, 154); rot("#sw-h", Math.floor(rem / 36e5) % 24 * 15, 94);
+    const span = sec * 6 * intro;
+    $("#sw-arc").setAttribute("d", span < .5 ? "" : `M${swAt(360 - span)}A83 83 0 ${span > 180 ? 1 : 0} 1 ${swAt(359.99)}`);
   }
   // the hands sweep in from 12 as the card appears, then run smoothly while the hero is on screen
   hands(Date.now(), still ? 1 : 0);
@@ -630,6 +640,7 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
       if (now >= dayOpen && now < dayClose) { target = dayClose; label = "Open now · Day " + (idx + 1) + " · closes in"; }
       else { target = now < dayOpen ? dayOpen : Date.parse(DAYS[idx + 1] + "T10:00:00+05:00"); label = "Doors open again in"; }
     }
+    swT = msg ? 0 : target;
     if (still) hands(now, 1);
     $("#ro-label").textContent = label;
     if (msg) { $("#digits").hidden = true; $("#ro-msg").hidden = false; $("#ro-msg").textContent = msg; return; }
