@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>You're invited · Tti Labs Sustainability Center at Green Pakistan Expo 2026</title>
 <meta name="description" content="Visit the Tti Labs Sustainability Center at Green Pakistan Expo 2026, Hall 2, Expo Centre Lahore, 26 to 28 November. PPWR packaging compliance, ESG reporting, GHG and environmental testing.">
-<meta name="theme-color" content="#E6F1FC">
+<meta name="theme-color" content="#F4F8FD">
 <meta property="og:type" content="website">
 <meta property="og:title" content="You're invited: Tti Labs Sustainability Center at Green Pakistan Expo 2026">
 <meta property="og:description" content="26 to 28 November 2026 · Hall 2, Expo Centre Lahore · 10:00 AM to 6:00 PM. PPWR, ESG reporting and GHG, in person.">
@@ -31,7 +31,7 @@
 
 :root{
   --nv:#1B3564; --nv3:#0F2140; --blu:#2C63A8; --blu-l:#8FB4E8; --lm:#D3DF38; --leaf:#5FB36C; --leaf2:#2F8F5B;
-  --sky0:#F5FAFF; --sky1:#E6F1FC; --sky2:#D3E6F8; --card:#FFFFFF; --ink:#14213D; --mute:#55657E; --rule:#D5E2F0; --wa:#25D366;
+  --sky0:#F4F8FD; --sky1:#E7EFF9; --sky2:#D6E4F4; --card:#FFFFFF; --ink:#14213D; --mute:#55657E; --rule:#D5E2F0; --wa:#25D366;
   --display:"Inter Tight","Inter",system-ui,sans-serif; --body:"Inter",system-ui,sans-serif; --serif:"Serif","Iowan Old Style","Georgia",serif; --mono:"Mono",ui-monospace,monospace;
   --r:22px; --pad:22px;
   --shadow:0 1px 0 rgba(20,33,61,.04),0 18px 40px -26px rgba(27,53,100,.45);
@@ -45,62 +45,37 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 :focus-visible{outline:3px solid var(--blu);outline-offset:3px;border-radius:10px}
 
 /* ambient light */
-.glow{position:fixed;border-radius:50%;filter:blur(70px);pointer-events:none;z-index:0}
-.glow.a{width:420px;height:420px;left:-160px;top:-120px;background:rgba(211,223,56,.30);animation:float 18s ease-in-out infinite alternate}
-.glow.b{width:520px;height:520px;right:-220px;top:30vh;background:rgba(143,180,232,.45);animation:float 22s ease-in-out infinite alternate-reverse}
-@keyframes float{to{transform:translate(60px,80px) scale(1.12)}}
+.glow{position:fixed;border-radius:50%;filter:blur(80px);pointer-events:none;z-index:0}
+.glow.b{width:560px;height:560px;right:-260px;top:38vh;background:rgba(143,180,232,.35)}
 
 .wrap{position:relative;z-index:1;max-width:540px;margin:0 auto;padding:0 var(--pad)}
 
 /* ---------- HERO ---------- */
 .hero{position:relative;overflow-x:clip;margin:0 calc(-1 * var(--pad));padding-left:var(--pad)!important;padding-right:var(--pad)!important;text-align:center;padding:26px 0 8px;min-height:100svh;display:flex;flex-direction:column;align-items:center}
-.topo{position:absolute;left:0;top:0;width:100%;height:520px;opacity:.55;pointer-events:none;z-index:0}
-.logo{width:96px;filter:drop-shadow(0 8px 16px rgba(27,53,100,.18));opacity:0;animation:rise .9s ease .05s forwards}
-.brand{margin-top:10px;font-weight:700;font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--nv);opacity:0;animation:rise .9s ease .15s forwards}
+.brand{margin-top:6px;font-weight:700;font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--nv);opacity:0;animation:rise .9s ease .5s forwards}
 .brand span{color:var(--blu)}
 
-.world{position:relative;width:min(300px,78vw);margin:10px auto 0}
-@media(min-width:700px){.world{width:340px}.logo{width:110px}}
-.world svg{width:100%;height:auto;overflow:visible;display:block}
-.leaves{position:absolute;inset:-30px -60px;pointer-events:none;overflow:hidden}
-.leaves svg{position:absolute;width:16px;height:16px;opacity:0;animation:drift linear infinite}
-@keyframes drift{0%{opacity:0;transform:translate(0,0) rotate(0)}12%{opacity:.85}85%{opacity:.7}100%{opacity:0;transform:translate(var(--dx),var(--dy)) rotate(var(--rot))}}
-.ringdraw{stroke-dasharray:var(--a) 2000;stroke-dashoffset:var(--a);animation:draw 2.4s cubic-bezier(.6,.1,.2,1) .3s forwards}
-@keyframes draw{to{stroke-dashoffset:0}}
-.spin{transform-box:view-box;transform-origin:180px 160px;animation:spin var(--t,90s) linear infinite}
-.spin.ccw{animation-direction:reverse}
-@keyframes spin{to{transform:rotate(360deg)}}
-.sun{transform-box:view-box;transform-origin:224px 122px;animation:sunrise 2.6s cubic-bezier(.2,.8,.2,1) both}
-@keyframes sunrise{from{transform:translateY(46px)}}
-.halo{transform-box:fill-box;transform-origin:center;animation:breathe 5s ease-in-out infinite}
-@keyframes breathe{50%{transform:scale(1.18);opacity:.55}}
-.cloud{animation:cloud 26s ease-in-out infinite alternate}
-.cloud.c2{animation-duration:34s;animation-direction:alternate-reverse}
-@keyframes cloud{from{transform:translateX(-26px)}to{transform:translateX(30px)}}
-.wave{stroke-dasharray:7 9;animation:flow 3.5s linear infinite}
-@keyframes flow{to{stroke-dashoffset:-32}}
-.stem{stroke-dasharray:60;stroke-dashoffset:60;animation:grow 1.6s cubic-bezier(.5,0,.2,1) 1s forwards}
+/* emblem: the logo inside fine, slowly breathing growth rings (open, like the Scope rings) */
+.emblem{position:relative;width:min(320px,84vw);aspect-ratio:1;margin:0 auto -4px}
+.emblem::before{content:"";position:absolute;inset:18%;border-radius:50%;background:radial-gradient(circle,#fff 0%,rgba(255,255,255,.85) 40%,rgba(255,255,255,0) 72%)}
+.emblem svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.emblem path{fill:none;stroke-linecap:round;stroke-dasharray:1 1;stroke-dashoffset:1;animation:trace 2.6s cubic-bezier(.65,.05,.25,1) forwards}
+@keyframes trace{to{stroke-dashoffset:0}}
 @keyframes grow{to{stroke-dashoffset:0}}
-.lf{transform-box:fill-box;transform:scale(0);animation:pop .9s cubic-bezier(.3,1.6,.5,1) forwards}
-.lf.l1{transform-origin:100% 100%;animation-delay:1.9s}
-.lf.l2{transform-origin:0 100%;animation-delay:2.2s}
-.lf.l3{transform-origin:50% 100%;animation-delay:2.5s}
-@keyframes pop{to{transform:scale(1)}}
-.sway{transform-box:view-box;transform-origin:180px 262px;animation:sway 5s ease-in-out 3s infinite}
-@keyframes sway{25%{transform:rotate(2.5deg)}75%{transform:rotate(-2.5deg)}}
-.glint{animation:glint 4.5s ease-in-out 2s infinite}
-@keyframes glint{0%{transform:translateX(-40px)}40%,100%{transform:translateX(70px)}}
-.mote{animation:mote var(--t,7s) ease-in infinite;animation-delay:var(--d,0s);opacity:0}
-@keyframes mote{0%{opacity:0;transform:translateY(0)}20%{opacity:.9}100%{opacity:0;transform:translateY(-70px)}}
+.emblem .head{opacity:0;animation:fade .8s ease 2.4s forwards}
+.emblem img{position:absolute;left:50%;top:50%;width:38%;transform:translate(-50%,-50%);opacity:0;animation:logo 1.1s cubic-bezier(.2,.8,.2,1) .15s forwards}
+@keyframes logo{from{opacity:0;transform:translate(-50%,-46%) scale(.94)}to{opacity:1;transform:translate(-50%,-50%)}}
+@keyframes fade{to{opacity:1}}
+@media(min-width:700px){.emblem{width:340px}}
 
 /* invitation text */
-.for{margin-top:8px;font-weight:700;font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--blu);opacity:0;animation:rise .9s ease .5s forwards}
+.for{margin-top:14px;font-weight:700;font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--blu);opacity:0;animation:rise .9s ease .7s forwards}
 .name{position:relative;margin-top:6px;font-family:var(--serif);font-style:italic;font-weight:400;font-size:clamp(46px,13.5vw,68px);line-height:1.02;letter-spacing:-.01em;color:var(--nv);text-wrap:balance;padding:0 4px}
 .name .w{display:inline-block;white-space:nowrap}
 .name .ch{display:inline-block;opacity:0;transform:translateY(.28em);filter:blur(8px);animation:ink .9s cubic-bezier(.2,.8,.2,1) forwards}
 @keyframes ink{to{opacity:1;transform:none;filter:none}}
-.swash{display:block;width:min(260px,70%);height:20px;margin:2px auto 0;overflow:visible}
-.swash path{stroke-dasharray:300;stroke-dashoffset:300;animation:grow 1.2s cubic-bezier(.6,.1,.2,1) forwards;animation-delay:var(--sd,1.2s)}
+.swash{display:block;width:min(220px,60%);height:14px;margin:4px auto 0;overflow:visible}
+.swash path{stroke-dasharray:240;stroke-dashoffset:240;animation:grow 1.2s cubic-bezier(.6,.1,.2,1) forwards;animation-delay:var(--sd,1.2s)}
 .co{margin-top:6px;font-size:15.5px;font-weight:600;color:var(--mute);opacity:0;animation:rise .9s ease 1.1s forwards}
 .invited{margin-top:20px;font-size:16.5px;line-height:1.5;color:var(--mute);opacity:0;animation:rise .9s ease 1.25s forwards}
 .host-name{display:block;margin-top:4px;font-family:var(--display);font-weight:800;font-size:clamp(23px,6.6vw,30px);letter-spacing:-.025em;line-height:1.1;color:var(--nv)}
@@ -245,8 +220,7 @@ details[open] .body{animation:open .5s ease}
 
 /* ---------- RSVP ---------- */
 .rsvp{margin-top:34px;background:var(--card);border-radius:28px;box-shadow:var(--shadow);padding:26px 20px 22px;position:relative;overflow:hidden;scroll-margin-top:16px}
-.rsvp .sprig{position:absolute;right:-14px;top:-12px;width:118px;pointer-events:none}
-.rsvp .who{margin-top:4px;font-family:var(--serif);font-style:italic;font-size:30px;color:var(--blu);line-height:1.1;padding-right:70px}
+.rsvp .who{margin-top:4px;font-family:var(--serif);font-style:italic;font-size:30px;color:var(--blu);line-height:1.1}
 .qa{margin-top:20px}
 .qa > b{display:block;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-bottom:10px}
 .qa > b i{font-style:normal;text-transform:none;letter-spacing:0;font-weight:500}
@@ -284,16 +258,11 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
 .toast{position:fixed;left:50%;bottom:calc(86px + env(safe-area-inset-bottom));transform:translate(-50%,30px);opacity:0;background:var(--ink);color:#fff;padding:11px 18px;border-radius:99px;font-size:14px;font-weight:600;z-index:60;transition:all .35s ease;pointer-events:none;white-space:nowrap}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 
-@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.leaves{display:none}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 </style>
 </head>
 <body>
-<div class="glow a" aria-hidden="true"></div>
-<svg class="topo" viewBox="0 0 760 520" preserveAspectRatio="none" aria-hidden="true" fill="none" stroke="#9EC2E8" stroke-width="1">
-    <path d="M-20 120c120-60 220 40 360 0s240-90 440-10"/><path d="M-20 160c130-56 230 44 370 4s240-86 430-6" stroke-opacity=".8"/>
-    <path d="M-20 200c140-52 240 48 380 8s240-82 420-2" stroke-opacity=".6"/><path d="M-20 240c150-48 250 52 390 12s240-78 410 2" stroke-opacity=".45"/>
-    <path d="M-20 280c160-44 260 56 400 16s240-74 400 6" stroke-opacity=".3"/>
-  </svg><div class="glow b" aria-hidden="true"></div>
+<div class="glow b" aria-hidden="true"></div>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
@@ -321,85 +290,14 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
 <!-- ============ THE INVITATION ============ -->
 <header class="hero" id="top">
 
-  <img class="logo" src="assets/img/tti-logo.webp" alt="Tti Labs" width="920" height="717">
-  <p class="brand">Tti Labs <span>Sustainability Center</span></p>
-
-  <!-- living world: the Scope rings around a small sustainable landscape -->
-  <div class="world" aria-hidden="true">
-    <div class="leaves" id="leaves"></div>
-    <svg viewBox="0 0 360 320">
-      <defs>
-        <clipPath id="disc"><circle cx="180" cy="160" r="104"/></clipPath>
-        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B9DAF7"/><stop offset=".62" stop-color="#EAF5FF"/><stop offset="1" stop-color="#F7FBFF"/></linearGradient>
-        <radialGradient id="sunG"><stop offset="0" stop-color="#FFF7B8"/><stop offset=".6" stop-color="#EEF07A"/><stop offset="1" stop-color="#D3DF38"/></radialGradient>
-        <radialGradient id="haloG"><stop offset="0" stop-color="#F3F59A" stop-opacity=".9"/><stop offset="1" stop-color="#F3F59A" stop-opacity="0"/></radialGradient>
-        <linearGradient id="h1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#CFEAD6"/><stop offset="1" stop-color="#B5DCC1"/></linearGradient>
-        <linearGradient id="h2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9AD3A2"/><stop offset="1" stop-color="#78BE86"/></linearGradient>
-        <linearGradient id="h3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5EB06F"/><stop offset="1" stop-color="#3F9461"/></linearGradient>
-        <linearGradient id="river" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7FB6EA"/><stop offset="1" stop-color="#B7D8F6"/></linearGradient>
-        <linearGradient id="lfG" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#3F9461"/><stop offset="1" stop-color="#9BD07A"/></linearGradient>
-        <linearGradient id="lfL" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#9CC23A"/><stop offset="1" stop-color="#E3EC6A"/></linearGradient>
-        <linearGradient id="gl" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".75"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
-        <clipPath id="panels"><path d="M222 236l22-4 6 10-22 4zM248 231l22-4 6 10-22 4z"/></clipPath>
-        <path id="ringtxt" d="M180,160 m-148,0 a148,148 0 1,1 296,0 a148,148 0 1,1 -296,0"/>
-      </defs>
-
-      <!-- outer text ring: the four steps from the Sustainability Services brochure -->
-      <g class="spin" style="--t:120s">
-        <text font-family="Inter" font-weight="700" font-size="9.5" letter-spacing="3" fill="#5B86BE"><textPath href="#ringtxt" textLength="926" lengthAdjust="spacing">MEASURE · COMPLY · IMPROVE · DISCLOSE · MEASURE · COMPLY · IMPROVE · DISCLOSE ·</textPath></text>
-      </g>
-      <!-- Scope rings with gaps, read clockwise from the gap -->
-      <g class="spin" style="--t:70s">
-        <circle cx="180" cy="160" r="132" fill="none" stroke="#D3DF38" stroke-width="4" stroke-linecap="round" class="ringdraw" style="--a:700" transform="rotate(-60 180 160)"/>
-      </g>
-      <g class="spin ccw" style="--t:55s">
-        <circle cx="180" cy="160" r="118" fill="none" stroke="#1B3564" stroke-width="2.4" stroke-linecap="round" class="ringdraw" style="--a:610;animation-delay:.6s" transform="rotate(70 180 160)"/>
-        <circle cx="298" cy="160" r="4.5" fill="#1B3564" transform="rotate(70 180 160)"/>
-      </g>
-
-      <!-- the landscape -->
-      <g clip-path="url(#disc)">
-        <rect x="70" y="50" width="220" height="220" fill="url(#sky)"/>
-        <g class="sun"><circle class="halo" cx="224" cy="122" r="36" fill="url(#haloG)"/><circle cx="224" cy="122" r="17" fill="url(#sunG)"/></g>
-        <g class="cloud" fill="#fff"><path d="M110 104a9 9 0 0 1 16-6 11 11 0 0 1 20 4 7 7 0 0 1 1 14h-34a7 7 0 0 1-3-12z" opacity=".95"/></g>
-        <g class="cloud c2" fill="#fff"><path d="M214 84a7 7 0 0 1 12-4 9 9 0 0 1 16 3 6 6 0 0 1 1 11h-27a5.5 5.5 0 0 1-2-10z" opacity=".85"/></g>
-        <path d="M70 196c34-20 62-22 96-10s64 6 92-6 26-2 34 2v90H70z" fill="url(#h1)"/>
-        <!-- wind turbines -->
-        <g fill="#fff">
-          <path d="M126 186l1.3-34h1.4l1.3 34z"/><path d="M160 182l1.4-42h1.6l1.4 42z"/><path d="M252 178l1.2-30h1.3l1.2 30z"/>
-          <g><path d="M128 152c-1.6-5-1.4-12 0-18 1.4 6 1.6 13 0 18zM128 152c4.7 2.3 9.5 7.2 12.4 12.6-5.4-3-10-7.4-12.4-12.6zM128 152c-3.1 4.1-9.2 7.6-15 9.1 4.3-4.2 10-7.8 15-9.1z"/><animateTransform attributeName="transform" type="rotate" from="0 128 152" to="360 128 152" dur="5.5s" repeatCount="indefinite"/></g>
-          <g><path d="M162.2 140c-1.9-6-1.7-14 0-21.5 1.7 7.5 1.9 15.5 0 21.5zM162.2 140c5.6 2.8 11.4 8.6 14.9 15.1-6.5-3.6-12-8.9-14.9-15.1zM162.2 140c-3.7 4.9-11 9.1-18 10.9 5.2-5 12-9.4 18-10.9z"/><animateTransform attributeName="transform" type="rotate" from="0 162.2 140" to="360 162.2 140" dur="4.4s" repeatCount="indefinite"/></g>
-          <g><path d="M253.8 148c-1.4-4.4-1.2-10.5 0-16 1.2 5.5 1.4 11.6 0 16zM253.8 148c4.1 2 8.4 6.3 10.9 11.1-4.8-2.6-8.8-6.5-10.9-11.1zM253.8 148c-2.7 3.6-8.1 6.7-13.2 8 3.8-3.7 8.8-6.9 13.2-8z"/><animateTransform attributeName="transform" type="rotate" from="0 253.8 148" to="360 253.8 148" dur="6.4s" repeatCount="indefinite"/></g>
-          <circle cx="128" cy="152" r="2.2"/><circle cx="162.2" cy="140" r="2.4"/><circle cx="253.8" cy="148" r="2"/>
-        </g>
-        <path d="M70 214c40-18 76-16 110-4s70 10 112-8v68H70z" fill="url(#h2)"/>
-        <!-- river -->
-        <path d="M292 214c-30 8-60 6-84 14s-40 18-70 22-48 4-68 10v14h222z" fill="url(#river)"/>
-        <path class="wave" d="M286 220c-26 6-52 6-76 13s-40 17-70 21-44 4-62 9" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" opacity=".85"/>
-        <path d="M70 252c44-14 84-14 120-4s66 8 102-2v26H70z" fill="url(#h3)"/>
-        <!-- solar panels -->
-        <g><path d="M222 236l22-4 6 10-22 4zM248 231l22-4 6 10-22 4z" fill="#24467F"/>
-          <path d="M233 234l6 10M259 229l6 10M225 241l22-4M251 236l22-4" stroke="#8FB4E8" stroke-width=".7"/>
-          <g clip-path="url(#panels)"><rect class="glint" x="214" y="222" width="18" height="30" fill="url(#gl)"/></g>
-          <path d="M236 245v6M262 240v6" stroke="#1B3564" stroke-width="1.4"/></g>
-        <!-- rising motes -->
-        <circle class="mote" cx="104" cy="250" r="1.6" fill="#fff" style="--t:6s"/><circle class="mote" cx="150" cy="246" r="1.3" fill="#E3EC6A" style="--t:7.5s;--d:1.5s"/>
-        <circle class="mote" cx="206" cy="252" r="1.5" fill="#fff" style="--t:6.8s;--d:3s"/><circle class="mote" cx="244" cy="226" r="1.2" fill="#E3EC6A" style="--t:8s;--d:2.2s"/>
-        <!-- sapling -->
-        <g class="sway">
-          <path class="stem" d="M180 266c0-14-1.5-24 1-38" fill="none" stroke="#2F8F5B" stroke-width="3.2" stroke-linecap="round"/>
-          <path class="lf l1" d="M180.5 246c-4-10-14-14-25-12 3 10 13 15 25 12z" fill="url(#lfG)"/>
-          <path class="lf l2" d="M181 238c3-11 12-17 24-16-2 11-12 17-24 16z" fill="url(#lfL)"/>
-          <path class="lf l3" d="M181.4 229c-3-6-2-13 2-18 3.6 5 3.6 12-2 18z" fill="url(#lfG)"/>
-        </g>
-      </g>
-      <circle cx="180" cy="160" r="104" fill="none" stroke="#fff" stroke-width="3"/>
-    </svg>
+  <div class="emblem">
+    <svg id="rings" viewBox="0 0 360 360" aria-hidden="true"></svg>
+    <img src="assets/img/tti-logo.webp" alt="Tti Labs" width="640" height="477">
   </div>
 
   <p class="for">An invitation for</p>
   <h1 class="name" id="name">Our honoured guest</h1>
-  <svg class="swash" viewBox="0 0 260 20" aria-hidden="true"><path d="M6 14C70 4 170 2 254 11" fill="none" stroke="#D3DF38" stroke-width="5" stroke-linecap="round"/></svg>
+  <svg class="swash" viewBox="0 0 220 14" aria-hidden="true"><path d="M4 9C60 3 150 2 216 7" fill="none" stroke="#C9D72F" stroke-width="3" stroke-linecap="round"/></svg>
   <p class="co" id="co" hidden></p>
 
   <p class="invited">You are cordially invited to visit the
@@ -563,7 +461,6 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
 
 <!-- ============ RSVP ============ -->
 <section class="rsvp" id="rsvp" aria-labelledby="rs-h">
-  <svg class="sprig" viewBox="0 0 120 120" aria-hidden="true"><path d="M30 118C40 80 62 52 104 30" fill="none" stroke="#2F8F5B" stroke-width="2.4" stroke-linecap="round"/><path d="M58 70c-2-14 6-26 20-30 2 14-6 26-20 30z" fill="#9BD07A"/><path d="M76 50c8-12 22-16 34-10-8 12-22 16-34 10z" fill="#D3DF38"/><path d="M44 92c-12-6-16-20-10-32 12 6 16 20 10 32z" fill="#5FB36C"/></svg>
   <p class="k">RSVP</p>
   <h2 class="h2" id="rs-h" style="margin-top:6px">Will you join us?</h2>
   <p class="who" id="rs-name">We'd love to see you</p>
@@ -644,19 +541,43 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
   });
   $(".swash").style.setProperty("--sd", (0.8 + n * 0.045).toFixed(2) + "s");
 
-  // drifting leaves around the world
+  // growth rings: open contours that breathe and turn slowly; a lime point rides the head of the green ring
+  const RINGS = [
+    { r: 82, a: 1.6, c: "#1B3564", o: .95, w: 1.5, g: 4.6, v: .030 },
+    { r: 98, a: 2.2, c: "#2C63A8", o: .75, w: 1.2, g: 1.2, v: -.022 },
+    { r: 114, a: 2.8, c: "#9DB82A", o: 1, w: 1.9, g: 3.1, v: .040 },
+    { r: 130, a: 3.4, c: "#2C63A8", o: .45, w: 1.1, g: 5.6, v: -.016 },
+    { r: 146, a: 4.0, c: "#5B86BE", o: .38, w: 1, g: 0.3, v: .012 },
+    { r: 162, a: 4.6, c: "#8FB4E8", o: .5, w: 1, g: 2.4, v: -.010 }
+  ];
+  const svg = $("#rings"), NS = "http://www.w3.org/2000/svg", GAP = .42, STEPS = 150;
+  const paths = RINGS.map((R, i) => {
+    const pth = document.createElementNS(NS, "path");
+    pth.setAttribute("pathLength", "1"); pth.setAttribute("stroke", R.c); pth.setAttribute("stroke-opacity", R.o); pth.setAttribute("stroke-width", R.w);
+    pth.style.animationDelay = (0.2 + i * 0.14) + "s"; svg.append(pth); return pth;
+  });
+  const head = document.createElementNS(NS, "g"); head.setAttribute("class", "head");
+  head.innerHTML = '<circle r="9" fill="#C9D72F" fill-opacity=".22"/><circle r="4" fill="#C9D72F" stroke="#fff" stroke-width="1.5"/>';
+  svg.append(head);
+  const radius = (R, i, th, t) => R.r + R.a * (Math.sin(2 * th + i * 1.7 + t * .23) * .55 + Math.sin(3 * th + i * 2.9 - t * .17) * .3 + Math.sin(5 * th + i * .8 + t * .31) * .15);
+  function draw(t) {
+    RINGS.forEach((R, i) => {
+      const g0 = R.g + R.v * t, span = Math.PI * 2 - GAP; let d = "";
+      for (let k = 0; k <= STEPS; k++) {
+        const th = g0 + GAP / 2 + span * k / STEPS, rr = radius(R, i, th, t);
+        d += (k ? "L" : "M") + (180 + rr * Math.cos(th)).toFixed(2) + " " + (180 + rr * Math.sin(th)).toFixed(2);
+      }
+      paths[i].setAttribute("d", d);
+      if (i === 2) { const th = g0 + GAP / 2 + span, rr = radius(R, i, th, t); head.setAttribute("transform", `translate(${(180 + rr * Math.cos(th)).toFixed(2)} ${(180 + rr * Math.sin(th)).toFixed(2)})`); }
+    });
+  }
+  draw(0);
   if (!still) {
-    const box = $("#leaves"), cols = ["#5FB36C", "#9BD07A", "#D3DF38", "#2F8F5B", "#8FB4E8"], NS = "http://www.w3.org/2000/svg";
-    for (let k = 0; k < 9; k++) {
-      const s = document.createElementNS(NS, "svg"), u = document.createElementNS(NS, "use");
-      u.setAttribute("href", "#leaf"); s.setAttribute("viewBox", "0 0 16 16"); s.append(u);
-      const sz = 10 + (k * 7) % 10;
-      s.style.cssText = `left:${(k * 37) % 92}%;top:${(k * 53) % 70}%;width:${sz}px;height:${sz}px;color:${cols[k % cols.length]};` +
-        `--dx:${(k % 2 ? 1 : -1) * (40 + (k * 13) % 50)}px;--dy:${60 + (k * 17) % 70}px;--rot:${(k % 2 ? 1 : -1) * (160 + k * 20)}deg;` +
-        `animation-duration:${9 + (k * 3) % 7}s;animation-delay:${(k * 1.3).toFixed(1)}s`;
-      box.append(s);
-    }
-  } else $(".world svg").pauseAnimations?.();
+    let on = true, t0 = performance.now();
+    if ("IntersectionObserver" in window) new IntersectionObserver(([e]) => { on = e.isIntersecting; if (on) requestAnimationFrame(loop); }).observe(svg);
+    function loop(now) { if (!on) return; draw((now - t0) / 1000); requestAnimationFrame(loop); }
+    requestAnimationFrame(loop);
+  }
 
   const store = (() => { try { const k = "tti-expo-rsvp:" + (name || "guest"); localStorage.setItem("_t", "1"); localStorage.removeItem("_t");
       return { get: () => JSON.parse(localStorage.getItem(k) || "null"), set: v => localStorage.setItem(k, JSON.stringify(v)), del: () => localStorage.removeItem(k) };

@@ -21,10 +21,10 @@ Accept and Decline open WhatsApp to Naeem A. Butt (+92 301 114 9706) with a pref
 
 | Path | What |
 |---|---|
-| `index.html` | Invitation page. The first screen holds the logo, the animated emblem, the guest's name, the event, the dates and the reply button. The animated emblem is an SVG landscape with sun, turbines, river, solar panels and a growing sapling, inside the Scope rings, with drifting leaves. Six tap-to-open panels hold the rest: what we'll show you, when (with a PKT countdown and calendar links), where (the map loads only when this panel is opened), brochures, about Tti Labs and your host. Then come the RSVP card, the footer, and a sticky Reply button that appears once the hero buttons have scrolled away. |
+| `index.html` | Invitation page. The first screen holds the emblem (the logo inside six fine, open growth rings generated in JS: they draw in, then breathe and turn slowly, with a lime point riding the green ring; animation pauses off-screen and stays still under reduced motion), the guest's name, the event, the dates and the reply button. Six tap-to-open panels hold the rest: what we'll show you, when (with a PKT countdown and calendar links), where (the map loads only when this panel is opened), brochures, about Tti Labs and your host. Then come the RSVP card, the footer, and a sticky Reply button that appears once the hero buttons have scrolled away. |
 | `make.html` | Personal link maker (noindex). |
-| `assets/img/og.png` | 1200×630 link-preview card. Source: `../src/og.html`, which reuses the page's emblem; rendered with Playwright over http. |
-| `assets/img/*` | Tti logo (`tti-logo.webp`, from `D:\Downloads\TTI LOGO new.png`, with a white sticker edge), light lockup (`tti-lockup-light.webp`), OneClickESG and Greenbud logos, and brochure covers (webp, 420×594). |
+| `assets/img/og.png` | 1200×630 link-preview card. Source: `../src/og.html`, which carries a copy of the ring generator (frozen at t=6); rendered with Playwright over http. |
+| `assets/img/*` | Tti logo (`tti-logo.webp`, 640 px, from the user's own file saved as `../src/tti-logo-user.png`, used unaltered), light lockup (`tti-lockup-light.webp`), OneClickESG and Greenbud logos, and brochure covers (webp, 420×594). |
 | `assets/fonts/*` | Inter, Inter Tight, Instrument Serif Italic (guest names) and JetBrains Mono (woff2, latin). |
 
 The brochure buttons link to the live PDFs on framerusercontent.com, the same files as ttilabs.net/brochures (checked on 28 Oct 2026).
@@ -41,3 +41,4 @@ The countdown and the "Today" badge use fixed PKT (UTC+5) times. Change `OPEN`, 
 
 - 2026-10-28 v1: dark navy design with a sealed "Open invitation" cover. Superseded the same day.
 - 2026-10-28 v2: light-blue redesign at the user's request. The name, event and invitation lead; everything else sits in tap-to-open panels; animated sustainability emblem; official logo.
+- 2026-10-28 v3: the user rejected v2's logo treatment and cartoon landscape. Now the user's exact logo, with no halo or shadow, sits in fine-line growth rings. The background is a clean cool pale blue (#F4F8FD to #D6E4F4) with no lime glow. The RSVP sprig is removed. Backup of v2: `../src/index-v2-backup.html`.
