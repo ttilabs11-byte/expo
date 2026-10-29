@@ -37,6 +37,7 @@
   --shadow:0 1px 0 rgba(20,33,61,.04),0 18px 40px -26px rgba(27,53,100,.45);
 }
 *{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;interpolate-size:allow-keywords;overflow-x:clip}
 body{font-family:var(--body);color:var(--ink);min-height:100vh;overflow-x:clip;background:linear-gradient(180deg,var(--sky0) 0%,var(--sky1) 38%,var(--sky2) 100%) fixed}
 img{display:block;max-width:100%;height:auto}
@@ -286,6 +287,49 @@ details[open] .body{animation:open .5s ease}
 .done .row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
 .done .row .btn{height:44px;font-size:14px;padding:0 16px}
 .rsvp.answered .form{display:none}
+/* accept step 2: photo for the guest wall */
+.snap{display:none;margin-top:16px}
+.rsvp.photo .form{display:none}
+.rsvp.photo .snap{display:block}
+.rsvp.answered .snap{display:none}
+.snap h3{margin-top:6px;font-family:var(--display);font-weight:800;font-size:23px;letter-spacing:-.02em;line-height:1.15;color:var(--nv);outline:none}
+.snap > p{margin-top:6px;color:var(--mute);font-size:14.5px;line-height:1.5}
+.pick{display:flex;align-items:center;gap:16px;margin-top:18px}
+.pick .ph{position:relative;width:96px;height:96px;flex:none;border-radius:50%;background:var(--sky0);box-shadow:inset 0 0 0 1.5px var(--rule);display:grid;place-items:center;color:var(--blu);cursor:pointer;overflow:hidden}
+.pick .ph.on{box-shadow:0 0 0 3px #fff,0 0 0 5px var(--lm)}
+.pick .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.pick .ph svg{width:30px;height:30px}
+.pick .btn{height:44px;font-size:14px;padding:0 16px;cursor:pointer}
+.pick small{display:block;margin-top:6px;font-size:12.5px;line-height:1.4;color:var(--mute)}
+.pick small.err{color:#B42318}
+.as{margin-top:16px;font-size:14px;color:var(--mute)}
+.as b{color:var(--nv)}
+.fld{display:block;margin-top:14px}
+.fld span{display:block;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-bottom:6px}
+.fld span i{font-style:normal;text-transform:none;letter-spacing:0;font-weight:500}
+.fld input{width:100%;height:48px;border-radius:14px;border:0;box-shadow:inset 0 0 0 1.5px var(--rule);background:var(--sky0);padding:0 14px;font:500 16px var(--body);color:var(--ink)}
+.fld input:focus{outline:none;box-shadow:inset 0 0 0 2px var(--blu)}
+.fld input[aria-invalid="true"]{box-shadow:inset 0 0 0 2px #B42318}
+.btn:disabled{opacity:.6;cursor:progress}
+
+/* guest wall */
+.wall{margin-top:34px;background:var(--card);border-radius:28px;box-shadow:var(--shadow);padding:26px 20px 24px;scroll-margin-top:16px}
+.wall .cnt{margin-top:8px;color:var(--mute);font-size:14.5px}
+.wall .cnt:empty{display:none}
+.wgrid{margin-top:18px;display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:18px 10px}
+.wgrid:empty{display:none}
+.wg{text-align:center;min-width:0}
+.wg .av{width:72px;height:72px;margin:0 auto;border-radius:50%;display:grid;place-items:center;overflow:hidden;background:linear-gradient(160deg,#2A4A7E,var(--nv));color:var(--lm);font:800 22px var(--display);box-shadow:0 0 0 3px #fff,0 0 0 5px var(--lm),0 10px 20px -12px rgba(27,53,100,.6)}
+.wg .av img{width:100%;height:100%;object-fit:cover}
+.wg b{display:block;margin-top:11px;font-size:13px;line-height:1.25;color:var(--nv);overflow-wrap:anywhere}
+.wg span{display:block;margin-top:2px;font-size:11.5px;line-height:1.3;color:var(--mute);overflow-wrap:anywhere}
+.wg.inv .av{width:54px;height:54px;font-size:16px;background:var(--sky1);color:var(--nv);box-shadow:inset 0 0 0 1.5px var(--rule)}
+.wg.inv b{margin-top:8px;font-size:12.5px}
+.wg.new .av{animation:pop .7s cubic-bezier(.2,.9,.3,1.3)}
+@keyframes pop{from{transform:scale(.5);opacity:0}}
+.wsub{margin-top:26px;padding-top:18px;border-top:1px solid var(--rule);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.wempty{margin-top:16px;padding:16px;border-radius:16px;background:var(--sky0);color:var(--mute);font-size:14.5px;line-height:1.5}
+.wall .more{margin-top:16px;height:44px;font-size:14px}
 .rsvp.answered .done{display:block}
 
 /* footer */
@@ -332,6 +376,7 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
     <symbol id="d-pin" viewBox="0 0 24 24"><ellipse style="fill:var(--ac)" cx="12" cy="20" rx="6.5" ry="2"/><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M12 18.2s-6.2-5.4-6.2-10.2a6.2 6.2 0 0 1 12.4 0c0 4.8-6.2 10.2-6.2 10.2z"/><circle fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" cx="12" cy="8" r="2.3"/></symbol>
     <symbol id="d-books" viewBox="0 0 24 24"><rect style="fill:var(--ac)" x="8.6" y="2.8" width="11" height="14.4" rx="2" transform="rotate(8 14 10)"/><rect x="4.4" y="6.4" width="11" height="14.6" rx="2" style="fill:var(--tile)"/><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M6.4 6.4h7a2 2 0 0 1 2 2V19a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2V8.4a2 2 0 0 1 2-2zM7.6 11h5.6M7.6 14h5.6M7.6 17h3.2"/></symbol>
     <symbol id="d-award" viewBox="0 0 24 24"><circle style="fill:var(--ac)" cx="12" cy="9.4" r="5.2"/><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M12 2.8a6.6 6.6 0 1 1 0 13.2 6.6 6.6 0 0 1 0-13.2zM8.3 14.9 6.9 21l5.1-2.6 5.1 2.6-1.4-6.1M9.5 9.5l1.7 1.7 3.3-3.3"/></symbol>
+    <symbol id="i-cam" viewBox="0 0 24 24"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h1.6l1.4-2h5l1.4 2h1.6A2.5 2.5 0 0 1 20 8.5v8a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 16.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="12.4" r="3.4" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
     <symbol id="i-leafl" viewBox="0 0 40 40"><path d="M7 33C6 19 15 8 34 6c1 17-8 28-27 27zM7 33 26 14M3 37l4-4M13 27v-6M13 27h6M19 21v-6M19 21h6" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></symbol>
     <symbol id="i-bin" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6.5 7l1 13h9l1-13M10 11v6M14 11v6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 5v14m0 0l-6-6m6 6l6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
@@ -560,6 +605,18 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
   </div>
 </section>
 
+<!-- ============ GUEST WALL ============ -->
+<section class="wall" id="wall" aria-labelledby="wl-h" hidden>
+  <p class="k">Guest wall</p>
+  <h2 class="h2" id="wl-h" style="margin-top:6px">Who's <em>coming</em></h2>
+  <p class="cnt" id="wl-cnt" aria-live="polite"></p>
+  <div class="wgrid" id="wl-yes"></div>
+  <p class="wempty" id="wl-empty" hidden>Be the first to accept. Your photo and name will appear here.</p>
+  <p class="wsub" id="wl-inv-h" hidden>Also invited</p>
+  <div class="wgrid" id="wl-inv"></div>
+  <button class="btn b-ghost full more" id="wl-more" type="button" hidden></button>
+</section>
+
 <!-- ============ RSVP ============ -->
 <section class="rsvp" id="rsvp" aria-labelledby="rs-h">
   <p class="k">RSVP</p>
@@ -586,9 +643,33 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
       </div>
     </div>
     <div class="acts">
-      <button class="btn b-go full" id="yes" type="button"><svg><use href="#i-wa"/></svg>Accept with WhatsApp</button>
+      <button class="btn b-go full" id="yes" type="button">Accept the invitation</button>
       <button class="btn b-ghost full" id="no" type="button">I can't make it this time</button>
-      <p class="fine to"><img src="assets/img/naeem.webp" alt="" width="36" height="36"><span>Your reply opens WhatsApp with a message ready for Naeem A. Butt. Nothing is sent until you press send.</span></p>
+      <p class="fine to"><img src="assets/img/naeem.webp" alt="" width="36" height="36"><span>Accepting puts you on the guest wall, then opens WhatsApp with a message ready for Naeem A. Butt. Nothing is sent until you press send.</span></p>
+    </div>
+  </div>
+
+  <div class="snap" id="snap">
+    <p class="k">Guest wall</p>
+    <h3 id="snap-h" tabindex="-1">Add your photo to the guest wall</h3>
+    <p>Guests who accept appear on this page with their photo, name and company. The photo is optional.</p>
+    <div class="pick">
+      <label class="ph" id="ph" for="ph-file"><svg><use href="#i-cam"/></svg><img id="ph-prev" alt="" hidden></label>
+      <div>
+        <label class="btn b-ghost" for="ph-file" id="ph-pick">Choose a photo</label>
+        <small id="ph-note">A clear photo of your face works best.</small>
+        <small class="err" id="ph-err" hidden>That photo didn't upload. Try another, or carry on without one.</small>
+      </div>
+      <input type="file" id="ph-file" accept="image/*" hidden>
+    </div>
+    <p class="as" id="ph-as" hidden></p>
+    <div id="ph-fields" hidden>
+      <label class="fld"><span>Your name</span><input id="f-name" autocomplete="name" maxlength="80"></label>
+      <label class="fld"><span>Company <i>(optional)</i></span><input id="f-co" autocomplete="organization" maxlength="80"></label>
+    </div>
+    <div class="acts">
+      <button class="btn b-go full" id="send" type="button"><svg><use href="#i-wa"/></svg><span>Send my reply on WhatsApp</span></button>
+      <button class="btn b-ghost full" id="ph-back" type="button">Back</button>
     </div>
   </div>
 
@@ -624,12 +705,14 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
   const DAYNAMES = ["Thursday 26 November", "Friday 27 November", "Saturday 28 November"];
   const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // ---- guest from the link: #n=Name&c=Company (the fragment never reaches a server) ----
+  // ---- guest from the link: #n=Name&c=Company&d=Designation&i=invite id (saved by the link maker) ----
   const params = new URLSearchParams(location.hash.slice(1) || location.search.slice(1));
   const clean = v => (v || "").replace(/[<>]/g, "").replace(/\s+/g, " ").trim().slice(0, 80);
-  const name = clean(params.get("n")), co = clean(params.get("c"));
+  const name = clean(params.get("n")), co = clean(params.get("c")), des = clean(params.get("d"));
+  const inviteId = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(params.get("i") || "") ? params.get("i") : null;
+  let gName = name, gCo = co;
   if (name) { $("#rs-name").textContent = name; document.title = name + " · You're invited · Tti Sustainability Center"; }
-  if (co) { $("#co").textContent = co; $("#co").hidden = false; }
+  if (co || des) { $("#co").textContent = [des, co].filter(Boolean).join(", "); $("#co").hidden = false; }
 
   // the name is written in, letter by letter
   const nm = $("#name"), text = name || "Our honoured guest";
@@ -761,7 +844,7 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
 
   // ---- RSVP via WhatsApp ----
   const list = a => a.length < 2 ? (a[0] || "") : a.slice(0, -1).join(", ") + " and " + a[a.length - 1];
-  const who = () => (name || "[your name]") + (co ? ", " + co : "");
+  const who = () => [gName || "[your name]", des, gCo].filter(Boolean).join(", ");
   const GREET = "Assalamualaikum Naeem sb,";
   function message(yes) {
     const days = $$("#c-day .chip[aria-pressed=true]").map(b => b.dataset.v), topics = $$("#c-topic .chip[aria-pressed=true]").map(b => b.dataset.v);
@@ -774,14 +857,93 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
     $("#rsvp").classList.add("answered"); $("#done").classList.toggle("no", !st.yes);
     $("#done-st").textContent = st.yes ? "Accepted" : "Declined";
     $("#done-h").textContent = st.yes ? "We look forward to welcoming you." : "Thank you for letting us know.";
-    $("#done-p").textContent = st.yes ? (st.days.length ? "See you on " + list(st.days) + ", Hall 2. " : "See you in Hall 2. ") + "If WhatsApp didn't open, tap below to send your reply." : "We'll keep you in touch. You can still change your mind before 26 November.";
+    $("#done-p").textContent = st.yes ? (st.days.length ? "See you on " + list(st.days) + ", Hall 2. " : "See you in Hall 2. ") + (st.wall ? "You're on the guest wall. " : "") + "If WhatsApp didn't open, tap below to send your reply." : "We'll keep you in touch. You can still change your mind before 26 November.";
     dockUpd();
   }
   function reply(yes) {
-    const st = { yes, days: $$("#c-day .chip[aria-pressed=true]").map(b => b.dataset.v).filter(v => DAYNAMES.includes(v)).map(v => v.replace(" November", "")), text: message(yes), at: Date.now() };
+    const st = { yes, wall: yes && !!gName, days: $$("#c-day .chip[aria-pressed=true]").map(b => b.dataset.v).filter(v => DAYNAMES.includes(v)).map(v => v.replace(" November", "")), text: message(yes), at: Date.now() };
     store.set(st); answered(st); window.open(waUrl(st.text), "_blank", "noopener");
+    if (gName) sb("expo_rsvp", { p_id: row.id, p_token: row.token, p_invite: inviteId, p_name: gName, p_company: gCo || null, p_designation: des || null, p_yes: yes, p_days: st.days, p_photo: yes ? photo : null }, true)
+      .then(() => setTimeout(loadWall, 500)).catch(() => {});
+    $("#rsvp").classList.remove("photo");
     $("#rsvp").scrollIntoView({ behavior: "smooth", block: "start" });
   }
+
+  // ---- Supabase (tti-amplify project, expo_* functions): guest wall + RSVP record ----
+  const SB = "https://fuhnyjmbjzjflxylxakw.supabase.co", SBK = "sb_publishable_X6ElDgI9IkOuELXgmDGKFw_v-J35WNq";
+  const sb = (fn, body, keepalive) => fetch(SB + "/rest/v1/rpc/" + fn, { method: "POST", keepalive: !!keepalive, headers: { apikey: SBK, "Content-Type": "application/json" }, body: JSON.stringify(body || {}) })
+    .then(r => r.ok ? r.text().then(t => t ? JSON.parse(t) : null) : Promise.reject(new Error("HTTP " + r.status)));
+  const uuid = () => crypto.randomUUID ? crypto.randomUUID() : "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16));
+  // this device's own wall entry, so a changed reply updates it instead of adding another
+  const row = (() => { const k = "tti-expo-row:" + (inviteId || name || "guest");
+    try { const v = JSON.parse(localStorage.getItem(k) || "null"); if (v && v.id) return v; const n = { id: uuid(), token: uuid() }; localStorage.setItem(k, JSON.stringify(n)); return n; }
+    catch (e) { return { id: uuid(), token: uuid() }; } })();
+
+  // ---- accept, step 2: an optional photo, shrunk to 480 px in the browser and uploaded straight away ----
+  let photo = null;
+  if (name) { $("#ph-as").replaceChildren("You'll appear as ", Object.assign(document.createElement("b"), { textContent: [name, des, co].filter(Boolean).join(", ") }), "."); $("#ph-as").hidden = false; }
+  else $("#ph-fields").hidden = false;
+  const sendLbl = $("#send span");
+  const busy = on => { $("#send").disabled = on; sendLbl.textContent = on ? "Adding your photo…" : "Send my reply on WhatsApp"; };
+  const loadImg = f => new Promise((ok, no) => { const im = new Image(); im.onload = () => ok(im); im.onerror = no; im.src = URL.createObjectURL(f); });
+  async function shrink(f) {
+    const im = await loadImg(f), w = im.naturalWidth, h = im.naturalHeight, sd = Math.min(w, h);
+    const c = document.createElement("canvas"); c.width = c.height = 480;
+    c.getContext("2d").drawImage(im, (w - sd) / 2, Math.max(0, (h - sd) * .3), sd, sd, 0, 0, 480, 480);
+    URL.revokeObjectURL(im.src);
+    let b = await new Promise(r => c.toBlob(r, "image/webp", .82));
+    if (!b || b.type !== "image/webp") b = await new Promise(r => c.toBlob(r, "image/jpeg", .85));
+    return b;
+  }
+  $("#ph-file").addEventListener("change", e => {
+    const f = e.target.files[0]; if (!f) return;
+    photo = null; $("#ph-err").hidden = true; busy(true);
+    shrink(f).then(b => {
+      const pv = $("#ph-prev"); if (pv.src) URL.revokeObjectURL(pv.src);
+      pv.src = URL.createObjectURL(b); pv.hidden = false; $("#ph").classList.add("on"); $("#ph-pick").textContent = "Change photo";
+      const fn = uuid() + (b.type === "image/webp" ? ".webp" : ".jpg");
+      return fetch(SB + "/storage/v1/object/expo-guests/" + fn, { method: "POST", headers: { apikey: SBK, "Content-Type": b.type, "x-upsert": "false" }, body: b })
+        .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); photo = fn; });
+    }).catch(() => { $("#ph-err").hidden = false; $("#ph-note").hidden = true; }).finally(() => busy(false));
+  });
+  $("#send").addEventListener("click", () => {
+    if (!name) {
+      const v = clean($("#f-name").value);
+      if (!v) { $("#f-name").setAttribute("aria-invalid", "true"); $("#f-name").focus(); return; }
+      $("#f-name").removeAttribute("aria-invalid"); gName = v; gCo = clean($("#f-co").value);
+    }
+    reply(true);
+  });
+  $("#ph-back").addEventListener("click", () => { $("#rsvp").classList.remove("photo"); $("#yes").focus(); });
+
+  // ---- guest wall: accepted guests with their photos, then everyone invited; checks for new faces every 20 s ----
+  const initials = n => n.replace(/^(mr|mrs|ms|miss|dr|engr|prof|haji|mian|syed|ch)\.?\s+/i, "").split(" ").filter(Boolean).slice(0, 2).map(w => w[0]).join("").toUpperCase();
+  const seen = new Set(); let wallRows = [], wallSig = "", showAll = false;
+  function card(g, inv) {
+    const d = document.createElement("div"); d.className = "wg" + (inv ? " inv" : "") + (seen.size && !seen.has(g.k) ? " new" : "");
+    const a = document.createElement("div"); a.className = "av";
+    if (g.photo) { const im = new Image(); im.src = SB + "/storage/v1/object/public/expo-guests/" + g.photo; im.alt = ""; im.loading = "lazy"; im.decoding = "async"; a.append(im); }
+    else a.textContent = initials(g.name);
+    const b = document.createElement("b"); b.textContent = g.name; d.append(a, b);
+    const sub = [g.designation, g.company].filter(Boolean).join(", ");
+    if (sub) { const sp = document.createElement("span"); sp.textContent = sub; d.append(sp); }
+    return d;
+  }
+  function drawWall() {
+    const yes = wallRows.filter(g => g.status === "accepted"), inv = wallRows.filter(g => g.status === "invited");
+    $("#wl-cnt").textContent = yes.length ? yes.length + (yes.length === 1 ? " guest has" : " guests have") + " accepted so far." : "";
+    $("#wl-yes").replaceChildren(...yes.map(g => card(g)));
+    $("#wl-empty").hidden = yes.length > 0;
+    $("#wl-inv").replaceChildren(...(showAll ? inv : inv.slice(0, 12)).map(g => card(g, true)));
+    $("#wl-inv-h").hidden = !inv.length;
+    $("#wl-more").hidden = showAll || inv.length <= 12; $("#wl-more").textContent = "Show all " + inv.length + " invited guests";
+    wallRows.forEach(g => seen.add(g.k)); $("#wall").hidden = false;
+  }
+  function loadWall() {
+    return sb("expo_wall").then(rows => { const sig = JSON.stringify(rows || []); if (sig !== wallSig) { wallSig = sig; wallRows = rows || []; drawWall(); } }).catch(() => {});
+  }
+  $("#wl-more").addEventListener("click", () => { showAll = true; drawWall(); });
+  setTimeout(() => { loadWall(); setInterval(() => { if (document.visibilityState === "visible") loadWall(); }, 20000); }, 1500);
 
   // ---- after the intro, glide down so the clock and the reply button fill the first screen ----
   let touched = !!location.hash.replace(/^#(n|c)=.*/, "");
@@ -800,7 +962,7 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
     new IntersectionObserver(([e]) => { rsvpVis = e.isIntersecting; dockUpd(); }, { threshold: .15 }).observe($("#rsvp"));
   }
 
-  $("#yes").addEventListener("click", () => reply(true));
+  $("#yes").addEventListener("click", () => { $("#rsvp").classList.add("photo"); $("#rsvp").scrollIntoView({ behavior: still ? "auto" : "smooth", block: "start" }); $("#snap-h").focus({ preventScroll: true }); });
   $("#no").addEventListener("click", () => reply(false));
   $("#resend").addEventListener("click", () => { const st = store.get(); window.open(waUrl(st ? st.text.replace(/^[^,]*,/, GREET) : message(true)), "_blank", "noopener"); });
   $("#change").addEventListener("click", () => { store.del(); $("#rsvp").classList.remove("answered"); dockUpd(); });

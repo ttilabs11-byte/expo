@@ -13,6 +13,7 @@
 @font-face{font-family:"Inter Tight";font-weight:800;src:url(assets/fonts/inter-tight-latin-800.woff2) format("woff2")}
 :root{--nv:#1B3564;--blu:#2C63A8;--lm:#D3DF38;--paper:#F4F6FA;--ink:#14213D;--mute:#56637A;--rule:#DCE3EC;--wa:#25D366}
 *{box-sizing:border-box;margin:0;padding:0}
+[hidden]{display:none!important}
 body{font-family:"Inter",system-ui,sans-serif;background:var(--paper);color:var(--ink);padding:28px 16px 60px}
 .w{max-width:860px;margin:0 auto}
 header{display:flex;align-items:center;gap:12px}
@@ -44,6 +45,14 @@ td.a .btn{margin-left:4px}
 .tip b{color:var(--ink)}
 .toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,30px);opacity:0;background:var(--ink);color:#fff;padding:11px 18px;border-radius:99px;font-size:14px;font-weight:600;transition:all .3s}
 .toast.on{opacity:1;transform:translate(-50%,0)}
+.pass{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:16px}
+.pass input{height:44px;border:1.5px solid var(--rule);border-radius:12px;padding:0 12px;font:15px "Inter",sans-serif;color:var(--ink);width:240px}
+.pass input:focus{outline:none;border-color:var(--blu)}
+.ok{color:#1A7F44}.bad{color:#B42318}
+td.ph img,td.ph i{display:block;width:40px;height:40px;border-radius:50%;object-fit:cover;background:var(--paper);box-shadow:inset 0 0 0 1px var(--rule)}
+.st{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:99px;background:var(--paper);color:var(--mute)}
+.st.accepted{background:#E3F2E8;color:#1A7F44}.st.declined{background:#FBE9E7;color:#B42318}
+tr.hid td:not(.a){opacity:.45}
 @media(max-width:640px){td.a{white-space:normal}td.a .btn{margin:4px 0 0}thead{display:none}tr{display:block;border-bottom:1px solid var(--rule);padding:8px 0}td{display:block;border:0;padding:4px 0}td.a{text-align:left}}
 </style>
 </head>
@@ -51,17 +60,19 @@ td.a .btn{margin-left:4px}
 <div class="w">
   <header><img src="assets/img/tti-logo.webp" alt="Tti Labs" width="48" height="37" style="width:48px;height:auto"><div class="k">Sustainability Center · Green Pakistan Expo 2026</div></header>
   <h1>Invitation link maker</h1>
-  <p class="l">One guest per line, as <b>Name, Company</b> (the company is optional), or paste two columns straight from Excel. Each guest gets a personal link that opens their own invitation. Names stay inside the link and are never stored on any server.</p>
+  <p class="l">One guest per line, as <b>Name, Company, Designation</b> (company and designation are optional), or paste the columns straight from Excel. Each guest gets a personal link that opens their own invitation, and is saved to the invited list on the guest wall.</p>
 
   <div class="box">
+    <div class="pass"><label for="pass" style="margin:0">Team passcode</label><input id="pass" type="password" autocomplete="off" placeholder="Needed to save the list"></div>
     <label for="names">Guests <span>· one per line</span></label>
-    <textarea id="names" placeholder="Mr. Ahmed Raza, Nishat Mills&#10;Ms. Sana Iqbal, Interloop Limited&#10;Dr. Faisal Khan"></textarea>
+    <textarea id="names" placeholder="Mr. Ahmed Raza, Nishat Mills, CEO&#10;Ms. Sana Iqbal, Interloop Limited&#10;Dr. Faisal Khan"></textarea>
     <div class="row">
       <button class="btn b-ink" id="go" type="button">Make links</button>
       <button class="btn b-ghost" id="copyall" type="button">Copy all messages</button>
       <button class="btn b-ghost" id="csv" type="button">Download CSV</button>
       <a class="btn b-lime" href="./" target="_blank" rel="noopener">Open general invitation</a>
     </div>
+    <p class="tip" id="saved" aria-live="polite"></p>
     <p class="tip"><b>Tip:</b> "Share on WhatsApp" opens WhatsApp with the guest's message and link ready; you pick the contact. The link preview shows the generic invitation card; the guest's name appears once they open it.</p>
   </div>
 
@@ -69,6 +80,15 @@ td.a .btn{margin-left:4px}
     <table>
       <thead><tr><th>Guest</th><th>Personal link</th><th style="text-align:right">Send</th></tr></thead>
       <tbody id="out"><tr><td class="empty" colspan="3">Your links will appear here.</td></tr></tbody>
+    </table>
+  </div>
+  <div class="box">
+    <label>Guest wall <span>· everyone invited and every reply</span></label>
+    <div class="row" style="margin-top:4px"><button class="btn b-ghost" id="wl-load" type="button">Load the guest list</button><a class="btn b-ghost" href="./#wall" target="_blank" rel="noopener">Open the wall</a></div>
+    <p class="tip" id="wl-sum"></p>
+    <table id="wl-tab" hidden>
+      <thead><tr><th></th><th>Guest</th><th>Reply</th><th style="text-align:right">On the wall</th></tr></thead>
+      <tbody id="wl-out"></tbody>
     </table>
   </div>
 </div>
@@ -79,20 +99,38 @@ td.a .btn{margin-left:4px}
   const base = new URL("./", location.href).href;
   let rows = [];
   const enc = v => encodeURIComponent(v).replace(/%20/g, "+");
-  const link = (n, c) => base + "#n=" + enc(n) + (c ? "&c=" + enc(c) : "");
-  const msg = r => "Dear " + r.n + ",\n\nThe Tti Sustainability Center cordially invites you to visit us at Green Pakistan Expo 2026, Hall 2, Expo Centre Lahore, 26 to 28 November, 10:00 AM to 6:00 PM.\n\nYour personal invitation and RSVP:\n" + r.url + "\n\nBecause every claim now needs proof.";
-  function parse() {
+  const link = r => base + "#n=" + enc(r.n) + (r.c ? "&c=" + enc(r.c) : "") + (r.d ? "&d=" + enc(r.d) : "") + (r.id ? "&i=" + r.id : "");
+  const msg = r => "Dear " + r.n + ",\n\nThe Tti Sustainability Center cordially invites you to visit us at Green Pakistan Expo 2026, Hall 2, Expo Centre Lahore, 26 to 28 November, 10:00 AM to 6:00 PM.\n\nPersonal invitation and RSVP for " + [r.n, r.d, r.c].filter(Boolean).join(", ") + ":\n" + r.url + "\n\nBecause every claim now needs proof.";
+
+  // ---- the invited list and guest wall live in Supabase (tti-amplify project, expo_* functions, passcode-checked) ----
+  const SB = "https://fuhnyjmbjzjflxylxakw.supabase.co", SBK = "sb_publishable_X6ElDgI9IkOuELXgmDGKFw_v-J35WNq";
+  const rpc = (fn, body) => fetch(SB + "/rest/v1/rpc/" + fn, { method: "POST", headers: { apikey: SBK, "Content-Type": "application/json" }, body: JSON.stringify(body) })
+    .then(r => r.text().then(t => { const j = t ? JSON.parse(t) : null; if (!r.ok) throw new Error(j && /passcode/.test(j.message) ? "wrong passcode" : "could not reach the guest list"); return j; }));
+  const PK = "tti-expo-pass";
+  try { $("#pass").value = localStorage.getItem(PK) || ""; } catch (e) {}
+  const pass = () => { const v = $("#pass").value.trim(); try { localStorage.setItem(PK, v); } catch (e) {} return v; };
+  const said = (t, ok) => { const el = $("#saved"); el.textContent = t; el.className = "tip " + (ok ? "ok" : "bad"); };
+
+  async function parse() {
     rows = $("#names").value.split(/\r?\n/).map(l => l.trim()).filter(Boolean).map(l => {
-      const i = l.search(/[\t,]/), n = (i < 0 ? l : l.slice(0, i)).trim(), c = i < 0 ? "" : l.slice(i + 1).trim();
-      return { n, c, url: link(n, c) };
+      const parts = (l.includes("\t") ? l.split("\t") : l.split(",")).map(v => v.trim());
+      return { n: parts[0] || "", c: parts[1] || "", d: parts.slice(2).filter(Boolean).join(", ") };
     }).filter(r => r.n);
+    if (rows.length) {
+      try {
+        const ids = await rpc("expo_add_invites", { p_pass: pass(), p_rows: rows.map(r => ({ n: r.n, c: r.c, d: r.d })) });
+        ids.forEach(x => { if (rows[x.i]) rows[x.i].id = x.id; });
+        said("Saved " + rows.length + (rows.length === 1 ? " guest" : " guests") + " to the invited list. They now show on the guest wall.", true);
+      } catch (e) { said("Not saved to the invited list (" + e.message + "). The links still work, but these guests won't show on the guest wall.", false); }
+    }
+    rows.forEach(r => { r.url = link(r); });
     const out = $("#out"); out.textContent = "";
     if (!rows.length) { out.innerHTML = '<tr><td class="empty" colspan="3">Add at least one name.</td></tr>'; return; }
     rows.forEach((r, i) => {
       const tr = document.createElement("tr");
       const tn = document.createElement("td"); tn.className = "n";
       const b = document.createElement("b"); b.textContent = r.n; tn.append(b);
-      if (r.c) { const s = document.createElement("span"); s.textContent = r.c; tn.append(s); }
+      if (r.c || r.d) { const s = document.createElement("span"); s.textContent = [r.d, r.c].filter(Boolean).join(", "); tn.append(s); }
       const tu = document.createElement("td"); tu.className = "u"; tu.textContent = r.url;
       const ta = document.createElement("td"); ta.className = "a";
       const mk = (t, cls, fn) => { const x = document.createElement(fn ? "button" : "a"); x.className = "btn sm " + cls; x.textContent = t; if (fn) { x.type = "button"; x.onclick = fn; } return x; };
@@ -105,14 +143,40 @@ td.a .btn{margin-left:4px}
   async function copy(t, ok) { try { await navigator.clipboard.writeText(t); toast(ok); } catch (e) { prompt("Copy:", t); } }
   let tt; function toast(t) { const el = $("#toast"); el.textContent = t; el.classList.add("on"); clearTimeout(tt); tt = setTimeout(() => el.classList.remove("on"), 2000); }
   $("#go").onclick = parse;
-  $("#copyall").onclick = () => { parse(); if (rows.length) copy(rows.map(msg).join("\n\n----------\n\n"), rows.length + " messages copied"); };
-  $("#csv").onclick = () => {
-    parse(); if (!rows.length) return;
+  $("#copyall").onclick = async () => { await parse(); if (rows.length) copy(rows.map(msg).join("\n\n----------\n\n"), rows.length + " messages copied"); };
+  $("#csv").onclick = async () => {
+    await parse(); if (!rows.length) return;
     const q = v => '"' + String(v).replace(/"/g, '""') + '"';
-    const csv = "﻿Name,Company,Link,Message\r\n" + rows.map(r => [r.n, r.c, r.url, msg(r)].map(q).join(",")).join("\r\n");
+    const csv = "\uFEFFName,Company,Designation,Link,Message\r\n" + rows.map(r => [r.n, r.c, r.d, r.url, msg(r)].map(q).join(",")).join("\r\n");
     const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([csv], { type: "text/csv" })); a.download = "expo-invitation-links.csv"; a.click();
     setTimeout(() => URL.revokeObjectURL(a.href), 500);
   };
+
+  // ---- team view of the guest wall: hide anything that shouldn't be public ----
+  async function wall() {
+    let list;
+    try { list = await rpc("expo_admin_list", { p_pass: pass() }); } catch (e) { $("#wl-sum").textContent = "Couldn't load the list: " + e.message + "."; $("#wl-sum").className = "tip bad"; return; }
+    const n = s => list.filter(g => g.status === s).length;
+    $("#wl-sum").className = "tip"; $("#wl-sum").textContent = n("accepted") + " accepted, " + n("declined") + " declined, " + n("invited") + " not replied yet.";
+    const out = $("#wl-out"); out.textContent = ""; $("#wl-tab").hidden = false;
+    list.forEach(g => {
+      const tr = document.createElement("tr"); if (g.hidden) tr.className = "hid";
+      const tp = document.createElement("td"); tp.className = "ph";
+      if (g.photo) { const im = new Image(); im.src = SB + "/storage/v1/object/public/expo-guests/" + g.photo; im.alt = ""; im.loading = "lazy"; tp.append(im); } else tp.append(document.createElement("i"));
+      const tn = document.createElement("td"); tn.className = "n";
+      const b = document.createElement("b"); b.textContent = g.name; tn.append(b);
+      const sub = [g.designation, g.company].filter(Boolean).join(", ");
+      if (sub) { const s = document.createElement("span"); s.textContent = sub; tn.append(s); }
+      const tst = document.createElement("td"); const st = document.createElement("span"); st.className = "st " + g.status;
+      st.textContent = g.status === "invited" ? "No reply yet" : g.status + (g.days && g.days.length ? " · " + g.days.join(", ") : ""); tst.append(st);
+      const ta = document.createElement("td"); ta.className = "a";
+      const hb = document.createElement("button"); hb.type = "button"; hb.className = "btn sm " + (g.hidden ? "b-ink" : "b-ghost");
+      hb.textContent = g.status === "declined" ? "Not shown" : g.hidden ? "Hidden · show" : "Shown · hide"; hb.disabled = g.status === "declined";
+      hb.onclick = async () => { try { await rpc("expo_admin_hide", { p_pass: pass(), p_id: g.id, p_hidden: !g.hidden }); toast(g.hidden ? "Back on the wall" : "Hidden from the wall"); wall(); } catch (e) { toast("Couldn't change it: " + e.message); } };
+      ta.append(hb); tr.append(tp, tn, tst, ta); out.append(tr);
+    });
+  }
+  $("#wl-load").onclick = wall;
 })();
 </script>
 </body>

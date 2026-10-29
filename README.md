@@ -7,22 +7,32 @@ Tti Sustainability Center invitation page for Green Pakistan Expo 2026: 26 to 28
 
 ## How personal links work
 
-`https://ttilabs11-byte.github.io/expo/#n=Mr.+Ahmed+Raza&c=Nishat+Mills`
+`https://ttilabs11-byte.github.io/expo/#n=Mr.+Ahmed+Raza&c=Nishat+Mills&d=CEO&i=<invite id>`
 
-- `n` is the guest's name and `c` is their company (optional). Both sit in the URL fragment (after `#`), so the browser never sends them to GitHub. No guest list is stored anywhere.
+- `n` name, `c` company, `d` designation (both optional), `i` the guest's row id in the invited list. They sit in the URL fragment (after `#`), so GitHub never sees them.
 - With no name, the page reads "Our honoured guest".
-- `make.html` turns a list of `Name, Company` lines (or two columns pasted from Excel) into links. For each guest it can copy the message, copy the link, share on WhatsApp, or preview. It can also export everything as a CSV.
+- `make.html` turns `Name, Company, Designation` lines (or columns pasted from Excel) into links. With the team passcode it saves every guest to the invited list first (same name + company keeps the same id, so re-making a link never duplicates anyone). For each guest it can copy the message, copy the link, share on WhatsApp, or preview, and it exports a CSV. Its "Guest wall" panel lists everyone with their reply and hides or shows any entry on the wall.
+- The team passcode is in `D:\Downloads\tti-expo-invite\TEAM-PASSCODE.txt` (outside the repo, never committed). Only its bcrypt hash is stored (`expo_settings.maker_pass`).
 
-## RSVP
+## RSVP and guest wall
 
-Accept and Decline open WhatsApp to Naeem A. Butt (+92 301 114 9706) with a prefilled message. The message carries the guest's name, chosen day and topics. Nothing is sent until the guest presses send. The guest's choice is remembered in their own browser (localStorage), and "Change response" clears it.
+"Accept the invitation" opens a second step: an optional photo for the guest wall (shrunk to 480 px square in the browser and uploaded at once), plus name and company fields when the link carries no name. "Send my reply on WhatsApp" then opens WhatsApp to Naeem A. Butt (+92 301 114 9706) with a prefilled message (name, designation, company, day, topics; nothing is sent until the guest presses send) and records the reply. Decline skips the photo. The guest's choice is remembered in their browser (localStorage) and "Change response" clears it; a changed reply updates the same row.
+
+The "Who's coming" wall sits above the RSVP card: accepted guests first (photo, or initials), then "Also invited" (first 12, then "Show all"). It refreshes every 20 s while the tab is visible and pops in new faces.
+
+### Backend (Supabase)
+
+- Project `tti-amplify` (`fuhnyjmbjzjflxylxakw`, ap-south-1); a dedicated project was not possible (free plan, 2 active projects). Everything for the expo is prefixed `expo_`; migration `expo_guest_wall`.
+- `public.expo_guests` (name, company, designation, status invited/accepted/declined, photo, days, hidden, source maker/rsvp, token) and `public.expo_settings` are closed to the public (RLS on, no grants); the page uses only these functions: `expo_wall()` (public list, no ids), `expo_rsvp(...)` (insert or update by invite id or by the browser's own id + token), and the passcode-checked `expo_add_invites`, `expo_admin_list`, `expo_admin_hide`.
+- Photos: public bucket `expo-guests`, webp/jpeg up to 700 KB, uuid file names; anyone may add a file, nobody may overwrite or delete one through the API. Remove photos in the Supabase dashboard (Storage).
+- The page uses the publishable key `sb_publishable_X6El...` (public by design).
 
 ## Files
 
 | Path | What |
 |---|---|
-| `index.html` | Invitation page. The first screen holds the logo; below it, a line globe with accurate Natural Earth coastlines (orthographic, centred on 70°E 15°S, Lahore marked with a pulsing point) and a sprout on its horizon. The globe is static SVG built by `../src/make_globe.py` and animated in CSS: the rim, grid and coastlines draw in, then the stem and leaves, and the leaves sway. Then come the guest's name, the event, the dates, and the dual countdown: an analog stopwatch (crown and pushers; the green hand sweeps each minute, a lime arc shows what is left of it, and small dials show the hours and minutes left), next to split-flap countdown tiles (days, hours, minutes, seconds) that switch to "Open now · closes in" during the expo and to a thank-you after it. Last on this screen is the green reply button. All motion pauses off-screen and steps or stays still under reduced motion. Six tap-to-open panels hold the rest: what we'll show you, when (days and calendar links), where (the map loads only when this panel is opened), brochures, about Tti Labs and your host. Then come the RSVP card, the footer, and a sticky Reply button that appears once the hero buttons have scrolled away. |
-| `make.html` | Personal link maker (noindex). |
+| `index.html` | Invitation page. The first screen holds the logo; below it, a line globe with accurate Natural Earth coastlines (orthographic, centred on 70°E 15°S, Lahore marked with a pulsing point) and a sprout on its horizon. The globe is static SVG built by `../src/make_globe.py` and animated in CSS: the rim, grid and coastlines draw in, then the stem and leaves, and the leaves sway. Then come the guest's name, the event, the dates, and the dual countdown: an analog stopwatch (crown and pushers; the green hand sweeps each minute, a lime arc shows what is left of it, and small dials show the hours and minutes left), next to split-flap countdown tiles (days, hours, minutes, seconds) that switch to "Open now · closes in" during the expo and to a thank-you after it. Last on this screen is the green reply button. All motion pauses off-screen and steps or stays still under reduced motion. Six tap-to-open panels hold the rest: what we'll show you, when (days and calendar links), where (the map loads only when this panel is opened), brochures, about Tti Labs and your host. Then come the guest wall, the RSVP card, the footer, and a sticky Reply button that appears once the hero reply button has scrolled away. |
+| `make.html` | Personal link maker and guest wall controls (noindex). |
 | `../src/make_globe.py` | Rebuilds `../src/globe.svg` from `../data/land-110m.json` (world-atlas 2.0.2, Natural Earth 110m, public domain). Paste the result over `<svg id="globe">` in index.html and og.html. |
 | `assets/img/og.png` | 1200×630 link-preview card. Source: `../src/og.html`, which embeds `../src/globe.svg`; rendered with Playwright over http. |
 | `assets/img/*` | Tti logo (`tti-logo.webp`, 640 px, from the user's own file saved as `../src/tti-logo-user.png`, used unaltered), light lockup (`tti-lockup-light.webp`), OneClickESG and Greenbud logos, and brochure covers (webp, 420×594). |
@@ -54,3 +64,4 @@ The countdown and the "Today" badge use fixed PKT (UTC+5) times. Change `OPEN`, 
 - 2026-10-28 v5.7: eight line-drawn leaves (#i-leafl, four on phones) drift slowly behind the top of the page in leaf green and blue, outside the text column on desktop; they stand still under reduced motion. The environment card follows the team's updated flyer: ZDHC "Pakistan's only local ZDHC-approved lab", fuller water and air lines, NOCs (IEE and EIA cases), Sludge Testing, Other Environmental Compliance and Audit-Related Services.
 - 2026-10-28 v5.8: the detail rows use bespoke duotone icons (navy line plus one lime accent: flask, calendar, pin, brochures, award) on soft gradient tiles; open rows turn navy. Naeem A. Butt's portrait (assets/img/naeem.webp, 192 px crop of the team's photo) is the "Your host" row icon and sits beside the RSVP note.
 - 2026-10-29 v5.9: about 2.3 s after the page opens it glides down so the clock and the green "Reply to the invitation" button fill the first screen, with the button at the bottom edge (never past the guest's name; skipped if the guest already scrolled, tapped or opened a #section link; instant under reduced motion). The floating reply button appears only once that button scrolls away. ESG card drops the Scope 1, 2 and 3 line; the GHG prompt no longer asks for 12 months of records.
+- 2026-10-29 v6.0: guest wall on Supabase. Accept now asks for an optional photo before WhatsApp; accepted guests appear live with photo, name, designation and company; the link maker saves every invited guest (with the team passcode) and adds `d` and `i` to links; team panel to hide entries. WhatsApp messages carry designation and company.
