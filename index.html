@@ -763,10 +763,11 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
   // ---- RSVP via WhatsApp ----
   const list = a => a.length < 2 ? (a[0] || "") : a.slice(0, -1).join(", ") + " and " + a[a.length - 1];
   const who = () => (name || "[your name]") + (co ? ", " + co : "");
+  const GREET = "Assalamualaikum Naeem sb,";
   function message(yes) {
     const days = $$("#c-day .chip[aria-pressed=true]").map(b => b.dataset.v), topics = $$("#c-topic .chip[aria-pressed=true]").map(b => b.dataset.v);
-    if (!yes) return "Assalamualaikum Naeem sb, this is " + who() + ". Thank you for the invitation to the Tti Sustainability Center at Green Pakistan Expo 2026. Unfortunately I can't attend this time, but please keep me in touch.";
-    return "Assalamualaikum Naeem sb, this is " + who() + ". Thank you for the invitation. I accept and will visit the Tti Sustainability Center at Green Pakistan Expo 2026, Hall 2, Expo Centre Lahore" +
+    if (!yes) return GREET + " this is " + who() + ". Thank you for the invitation to the Tti Sustainability Center at Green Pakistan Expo 2026. Unfortunately I can't attend this time, but please keep me in touch.";
+    return GREET + " this is " + who() + ". Thank you for the invitation. I accept and will visit the Tti Sustainability Center at Green Pakistan Expo 2026, Hall 2, Expo Centre Lahore" +
       (days.length ? ", on " + list(days) : "") + "." + (topics.length ? " I'd like to discuss " + list(topics) + "." : "");
   }
   const waUrl = t => "https://wa.me/" + WA + "?text=" + encodeURIComponent(t);
@@ -793,10 +794,10 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
 
   $("#yes").addEventListener("click", () => reply(true));
   $("#no").addEventListener("click", () => reply(false));
-  $("#resend").addEventListener("click", () => { const st = store.get(); window.open(waUrl(st ? st.text : message(true)), "_blank", "noopener"); });
+  $("#resend").addEventListener("click", () => { const st = store.get(); window.open(waUrl(st ? st.text.replace(/^[^,]*,/, GREET) : message(true)), "_blank", "noopener"); });
   $("#change").addEventListener("click", () => { store.del(); $("#rsvp").classList.remove("answered"); dockUpd(); });
   const prev = store.get(); if (prev) answered(prev);
-  $("#wa-direct").href = waUrl("Assalamualaikum Naeem sb, this is " + who() + ", about Green Pakistan Expo 2026.");
+  $("#wa-direct").href = waUrl(GREET + " this is " + who() + ", about Green Pakistan Expo 2026.");
 
   // ---- copy address ----
   $("#copy-addr").addEventListener("click", async () => {
