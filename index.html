@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>You're invited · Tti Sustainability Center at Green Pakistan Expo 2026</title>
-<meta name="description" content="Visit the Tti Sustainability Center at Green Pakistan Expo 2026, Hall 2, Expo Centre Lahore, 26 to 28 November. PPWR packaging compliance, ESG reporting, GHG and environmental testing.">
+<meta name="description" content="Visit the Tti Labs Sustainability Center at Green Pakistan Expo 2026, Hall 2, Expo Centre Lahore, 26 to 28 November. PPWR packaging compliance, ESG reporting, GHG and environmental testing.">
 <meta name="theme-color" content="#F4F8FD">
 <meta property="og:type" content="website">
 <meta property="og:title" content="You're invited: Tti Sustainability Center at Green Pakistan Expo 2026">
@@ -724,7 +724,7 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
   });
 
   // ---- calendar ----
-  const details = "Visit the Tti Sustainability Center at Green Pakistan Expo 2026: PPWR packaging compliance, ESG reporting with OneClickESG, GHG and environmental testing. Host: Naeem A. Butt, +92 301 114 9706.";
+  const details = "Visit the Tti Labs Sustainability Center at Green Pakistan Expo 2026: PPWR packaging compliance, ESG reporting with OneClickESG, GHG and environmental testing. Host: Naeem A. Butt, +92 301 114 9706.";
   const loc = "Hall 2, International Expo Centre Lahore, 1-A Abdul Haque Rd, Johar Town, Lahore";
   const chosenDay = () => { const c = $$("#c-day .chip[aria-pressed=true]").map(b => b.dataset.v).find(v => DAYNAMES.includes(v)); return c ? DAYS[DAYNAMES.indexOf(c)] : null; };
   function gcalUrl() {
@@ -765,8 +765,8 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
   const who = () => (name || "[your name]") + (co ? ", " + co : "");
   function message(yes) {
     const days = $$("#c-day .chip[aria-pressed=true]").map(b => b.dataset.v), topics = $$("#c-topic .chip[aria-pressed=true]").map(b => b.dataset.v);
-    if (!yes) return "Assalam-o-Alaikum Naeem sahib, this is " + who() + ". Thank you for the invitation to the Tti Sustainability Center at Green Pakistan Expo 2026. Unfortunately I can't attend this time, but please keep me in touch.";
-    return "Assalam-o-Alaikum Naeem sahib, this is " + who() + ". Thank you for the invitation. I accept and will visit the Tti Sustainability Center at Green Pakistan Expo 2026, Hall 2, Expo Centre Lahore" +
+    if (!yes) return "Assalamualaikum Naeem sb, this is " + who() + ". Thank you for the invitation to the Tti Labs Sustainability Center at Green Pakistan Expo 2026. Unfortunately I can't attend this time, but please keep me in touch.";
+    return "Assalamualaikum Naeem sb, this is " + who() + ". Thank you for the invitation. I accept and will visit the Tti Labs Sustainability Center at Green Pakistan Expo 2026, Hall 2, Expo Centre Lahore" +
       (days.length ? ", on " + list(days) : "") + "." + (topics.length ? " I'd like to discuss " + list(topics) + "." : "");
   }
   const waUrl = t => "https://wa.me/" + WA + "?text=" + encodeURIComponent(t);
@@ -796,7 +796,7 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
   $("#resend").addEventListener("click", () => { const st = store.get(); window.open(waUrl(st ? st.text : message(true)), "_blank", "noopener"); });
   $("#change").addEventListener("click", () => { store.del(); $("#rsvp").classList.remove("answered"); dockUpd(); });
   const prev = store.get(); if (prev) answered(prev);
-  $("#wa-direct").href = waUrl("Assalam-o-Alaikum Naeem sahib, this is " + who() + ", about Green Pakistan Expo 2026.");
+  $("#wa-direct").href = waUrl("Assalamualaikum Naeem sb, this is " + who() + ", about Green Pakistan Expo 2026.");
 
   // ---- copy address ----
   $("#copy-addr").addEventListener("click", async () => {
