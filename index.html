@@ -417,6 +417,7 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
   </div>
 
   <div class="cta" id="cta">
+    <a class="btn b-go full" id="cta-go" href="#rsvp"><svg><use href="#i-wa"/></svg>Reply to the invitation</a>
     <a class="btn b-ghost full" href="#details">See the details</a>
   </div>
 </header>
@@ -782,11 +783,20 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
     $("#rsvp").scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
-  // ---- sticky reply button: rises with the hero intro, hides at the RSVP card and once answered ----
-  let ready = false, rsvpVis = false;
-  function dockUpd() { $("#dock").classList.toggle("on", ready && !rsvpVis && !$("#rsvp").classList.contains("answered")); }
-  setTimeout(() => { ready = true; dockUpd(); }, 1700);
+  // ---- after the intro, glide down so the clock and the reply button fill the first screen ----
+  let touched = !!location.hash.replace(/^#(n|c)=.*/, "");
+  ["wheel", "touchstart", "keydown", "mousedown"].forEach(t => addEventListener(t, () => { touched = true; }, { once: true, passive: true }));
+  setTimeout(() => {
+    if (touched || scrollY > 8) return;
+    const by = Math.min($("#cta-go").getBoundingClientRect().bottom + 18 - innerHeight, $("#name").getBoundingClientRect().top - 10);
+    if (by > 0) scrollTo({ top: by, behavior: still ? "auto" : "smooth" });
+  }, 2300);
+
+  // ---- sticky reply button: appears once the hero button scrolls away, hides at the RSVP card ----
+  let ctaVis = true, rsvpVis = false;
+  function dockUpd() { $("#dock").classList.toggle("on", !ctaVis && !rsvpVis && !$("#rsvp").classList.contains("answered")); }
   if ("IntersectionObserver" in window) {
+    new IntersectionObserver(([e]) => { ctaVis = e.isIntersecting || e.boundingClientRect.top > 0; dockUpd(); }).observe($("#cta-go"));
     new IntersectionObserver(([e]) => { rsvpVis = e.isIntersecting; dockUpd(); }, { threshold: .15 }).observe($("#rsvp"));
   }
 
