@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>You're invited · Tti Labs Sustainability Center at Green Pakistan Expo 2026</title>
-<meta name="description" content="Visit the Tti Labs Sustainability Center at Green Pakistan Expo 2026, Hall 2, Expo Centre Lahore, 26 to 28 November. PPWR packaging compliance, ESG reporting, GHG and environmental testing.">
+<title>You're invited · Tti Sustainability Center at Green Pakistan Expo 2026</title>
+<meta name="description" content="Visit the Tti Sustainability Center at Green Pakistan Expo 2026, Hall 2, Expo Centre Lahore, 26 to 28 November. PPWR packaging compliance, ESG reporting, GHG and environmental testing.">
 <meta name="theme-color" content="#F4F8FD">
 <meta property="og:type" content="website">
-<meta property="og:title" content="You're invited: Tti Labs Sustainability Center at Green Pakistan Expo 2026">
+<meta property="og:title" content="You're invited: Tti Sustainability Center at Green Pakistan Expo 2026">
 <meta property="og:description" content="26 to 28 November 2026 · Hall 2, Expo Centre Lahore · 10:00 AM to 6:00 PM. PPWR, ESG reporting and GHG, in person.">
 <meta property="og:image" content="https://ttilabs11-byte.github.io/expo/assets/img/og.png">
 <meta property="og:image:width" content="1200">
@@ -629,7 +629,7 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
   const params = new URLSearchParams(location.hash.slice(1) || location.search.slice(1));
   const clean = v => (v || "").replace(/[<>]/g, "").replace(/\s+/g, " ").trim().slice(0, 80);
   const name = clean(params.get("n")), co = clean(params.get("c"));
-  if (name) { $("#rs-name").textContent = name; document.title = name + " · You're invited · Tti Labs Sustainability Center"; }
+  if (name) { $("#rs-name").textContent = name; document.title = name + " · You're invited · Tti Sustainability Center"; }
   if (co) { $("#co").textContent = co; $("#co").hidden = false; }
 
   // the name is written in, letter by letter
@@ -724,12 +724,12 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
   });
 
   // ---- calendar ----
-  const details = "Visit the Tti Labs Sustainability Center at Green Pakistan Expo 2026: PPWR packaging compliance, ESG reporting with OneClickESG, GHG and environmental testing. Host: Naeem A. Butt, +92 301 114 9706.";
+  const details = "Visit the Tti Sustainability Center at Green Pakistan Expo 2026: PPWR packaging compliance, ESG reporting with OneClickESG, GHG and environmental testing. Host: Naeem A. Butt, +92 301 114 9706.";
   const loc = "Hall 2, International Expo Centre Lahore, 1-A Abdul Haque Rd, Johar Town, Lahore";
   const chosenDay = () => { const c = $$("#c-day .chip[aria-pressed=true]").map(b => b.dataset.v).find(v => DAYNAMES.includes(v)); return c ? DAYS[DAYNAMES.indexOf(c)] : null; };
   function gcalUrl() {
     const d = chosenDay(), a = (d || "2026-11-26").replace(/-/g, ""), b = (d || "2026-11-28").replace(/-/g, "");
-    return "https://calendar.google.com/calendar/render?action=TEMPLATE&text=" + encodeURIComponent("Tti Labs Sustainability Center · Green Pakistan Expo 2026") +
+    return "https://calendar.google.com/calendar/render?action=TEMPLATE&text=" + encodeURIComponent("Tti Sustainability Center · Green Pakistan Expo 2026") +
       "&dates=" + a + "T100000/" + b + "T180000&ctz=Asia/Karachi&details=" + encodeURIComponent(details + " " + location.href.split("#")[0]) + "&location=" + encodeURIComponent(loc);
   }
   const refreshCal = () => { $("#gcal").href = gcalUrl(); };
@@ -738,7 +738,7 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
     const d = chosenDay(), days = d ? [d] : DAYS, z = s => s.replace(/-/g, "");
     const ev = days.map(ds => ["BEGIN:VEVENT", "UID:tti-gpe-2026-" + z(ds) + "@ttilabs.net", "DTSTAMP:20261028T040000Z",
       "DTSTART;TZID=Asia/Karachi:" + z(ds) + "T100000", "DTEND;TZID=Asia/Karachi:" + z(ds) + "T180000",
-      "SUMMARY:Tti Labs Sustainability Center · Green Pakistan Expo 2026", "LOCATION:" + loc.replace(/,/g, "\\,"),
+      "SUMMARY:Tti Sustainability Center · Green Pakistan Expo 2026", "LOCATION:" + loc.replace(/,/g, "\\,"),
       "DESCRIPTION:" + details.replace(/,/g, "\\,"), "BEGIN:VALARM", "TRIGGER:-PT2H", "ACTION:DISPLAY", "DESCRIPTION:Green Pakistan Expo today", "END:VALARM", "END:VEVENT"].join("\r\n"));
     const ics = ["BEGIN:VCALENDAR", "VERSION:2.0", "PRODID:-//Tti Labs//Expo invite//EN", "CALSCALE:GREGORIAN",
       "BEGIN:VTIMEZONE", "TZID:Asia/Karachi", "BEGIN:STANDARD", "DTSTART:19700101T000000", "TZOFFSETFROM:+0500", "TZOFFSETTO:+0500", "TZNAME:PKT", "END:STANDARD", "END:VTIMEZONE",
@@ -765,8 +765,8 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
   const who = () => (name || "[your name]") + (co ? ", " + co : "");
   function message(yes) {
     const days = $$("#c-day .chip[aria-pressed=true]").map(b => b.dataset.v), topics = $$("#c-topic .chip[aria-pressed=true]").map(b => b.dataset.v);
-    if (!yes) return "Assalamualaikum Naeem sb, this is " + who() + ". Thank you for the invitation to the Tti Labs Sustainability Center at Green Pakistan Expo 2026. Unfortunately I can't attend this time, but please keep me in touch.";
-    return "Assalamualaikum Naeem sb, this is " + who() + ". Thank you for the invitation. I accept and will visit the Tti Labs Sustainability Center at Green Pakistan Expo 2026, Hall 2, Expo Centre Lahore" +
+    if (!yes) return "Assalamualaikum Naeem sb, this is " + who() + ". Thank you for the invitation to the Tti Sustainability Center at Green Pakistan Expo 2026. Unfortunately I can't attend this time, but please keep me in touch.";
+    return "Assalamualaikum Naeem sb, this is " + who() + ". Thank you for the invitation. I accept and will visit the Tti Sustainability Center at Green Pakistan Expo 2026, Hall 2, Expo Centre Lahore" +
       (days.length ? ", on " + list(days) : "") + "." + (topics.length ? " I'd like to discuss " + list(topics) + "." : "");
   }
   const waUrl = t => "https://wa.me/" + WA + "?text=" + encodeURIComponent(t);
