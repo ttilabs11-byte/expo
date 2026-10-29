@@ -51,12 +51,12 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 
 /* drifting line leaves, top of the page only; the column keeps them clear of the text on desktop */
 .leaves{position:absolute;top:0;left:0;right:0;height:100svh;overflow:hidden;pointer-events:none;z-index:0;opacity:0;animation:lv-in 2.4s ease 1.6s forwards;-webkit-mask:linear-gradient(#000 50%,transparent 90%);mask:linear-gradient(#000 50%,transparent 90%)}
-.leaves i{position:absolute;left:var(--x);top:-80px;width:calc(var(--s) * 1.35);height:calc(var(--s) * 1.35);color:var(--c);opacity:.32;animation:lv-fall var(--d) linear var(--t) infinite;will-change:transform}
+.leaves i{position:absolute;left:var(--x);top:-80px;width:calc(var(--s) * 1.35);height:calc(var(--s) * 1.35);color:var(--c);opacity:.7;animation:lv-fall var(--d) linear var(--t) infinite;will-change:transform}
 .leaves svg{display:block;width:100%;height:100%;animation:lv-sway calc(var(--d) / 4) ease-in-out var(--t) infinite alternate}
 @keyframes lv-in{to{opacity:1}}
 @keyframes lv-fall{to{transform:translate3d(var(--dx),calc(100svh + 160px),0)}}
 @keyframes lv-sway{from{transform:translateX(-18px) rotate(-26deg)}to{transform:translateX(18px) rotate(30deg)}}
-@media (max-width:700px){.leaves i{width:var(--s);height:var(--s);opacity:.26}.leaves i:nth-child(n+5){display:none}}
+@media (max-width:700px){.leaves i{width:calc(var(--s) * 1.15);height:calc(var(--s) * 1.15);opacity:.6}.leaves i:nth-child(n+5){display:none}}
 .wrap{position:relative;z-index:1;max-width:540px;margin:0 auto;padding:0 var(--pad)}
 
 /* ---------- HERO ---------- */
@@ -312,24 +312,29 @@ details[open] .body{animation:open .5s ease}
 .fld input[aria-invalid="true"]{box-shadow:inset 0 0 0 2px #B42318}
 .btn:disabled{opacity:.6;cursor:progress}
 
-/* guest wall */
-.wall{margin-top:34px;background:var(--card);border-radius:28px;box-shadow:var(--shadow);padding:26px 20px 24px;scroll-margin-top:16px}
-.wall .cnt{margin-top:8px;color:var(--mute);font-size:14.5px}
-.wall .cnt:empty{display:none}
-.wgrid{margin-top:18px;display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:18px 10px}
-.wgrid:empty{display:none}
-.wg{text-align:center;min-width:0}
-.wg .av{width:72px;height:72px;margin:0 auto;border-radius:50%;display:grid;place-items:center;overflow:hidden;background:linear-gradient(160deg,#2A4A7E,var(--nv));color:var(--lm);font:800 22px var(--display);box-shadow:0 0 0 3px #fff,0 0 0 5px var(--lm),0 10px 20px -12px rgba(27,53,100,.6)}
-.wg .av img{width:100%;height:100%;object-fit:cover}
-.wg b{display:block;margin-top:11px;font-size:13px;line-height:1.25;color:var(--nv);overflow-wrap:anywhere}
-.wg span{display:block;margin-top:2px;font-size:11.5px;line-height:1.3;color:var(--mute);overflow-wrap:anywhere}
-.wg.inv .av{width:54px;height:54px;font-size:16px;background:var(--sky1);color:var(--nv);box-shadow:inset 0 0 0 1.5px var(--rule)}
-.wg.inv b{margin-top:8px;font-size:12.5px}
-.wg.new .av{animation:pop .7s cubic-bezier(.2,.9,.3,1.3)}
+/* guest wall: a navy card under a line-globe horizon; portraits sit in a gentle zigzag and float */
+.wall{position:relative;overflow:hidden;margin-top:30px;border-radius:28px;padding:32px 16px 28px;text-align:center;color:#fff;background:radial-gradient(130% 75% at 50% 0%,#2C4F86 0%,var(--nv) 52%,var(--nv3) 100%);box-shadow:0 26px 50px -28px rgba(15,33,64,.85);scroll-margin-top:16px}
+.wall > *{position:relative}
+.wall > .wl-bg{position:absolute;left:50%;top:-4px;width:680px;max-width:none;transform:translateX(-50%);color:rgba(255,255,255,.1);pointer-events:none}
+.wall > .wl-lf{position:absolute;width:44px;height:44px;color:var(--lm);opacity:.55;pointer-events:none}
+.wl-lf.a{top:10px;right:10px;width:34px!important;height:34px!important;transform:rotate(16deg)}
+.wall .k{color:var(--lm)}
+.wall .h2{margin-top:6px;color:#fff}
+.wall .h2 em{color:var(--lm)}
+.wgrid{margin-top:26px;display:flex;flex-wrap:wrap;justify-content:center;gap:14px 4px}
+.wg{width:96px;min-width:0}
+.wg:nth-child(even){margin-top:24px}
+.wg .av{position:relative;width:72px;height:72px;margin:0 auto;border-radius:50%;display:grid;place-items:center;background:linear-gradient(160deg,#3D67A6,#22427A);color:var(--lm);font:800 22px var(--display);box-shadow:0 0 0 3px var(--nv),0 0 0 5px var(--lm),0 16px 26px -12px rgba(0,0,0,.65);animation:bob 5.5s ease-in-out calc(var(--i) * -.9s) infinite alternate}
+.wg .av img{width:100%;height:100%;border-radius:50%;object-fit:cover}
+.wg .av::after{content:"";position:absolute;right:-5px;bottom:-1px;width:23px;height:23px;border-radius:50%;background:#1A7F44 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M5.5 18.5C5 10.5 10.5 5.5 19.5 4.5c.5 9-5 14.5-14 14zM5.5 18.5l7.5-7.5' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/13px no-repeat;box-shadow:0 0 0 2.5px var(--nv)}
+.wg b{display:block;margin-top:13px;font-size:12.5px;line-height:1.25;color:#fff;overflow-wrap:anywhere}
+.wg span{display:block;margin-top:3px;font-size:11px;line-height:1.3;color:var(--blu-l);overflow-wrap:anywhere}
+@keyframes bob{to{transform:translateY(-6px)}}
+.wg.new .av{animation:pop .7s cubic-bezier(.2,.9,.3,1.3),bob 5.5s ease-in-out .7s infinite alternate}
 @keyframes pop{from{transform:scale(.5);opacity:0}}
-.wsub{margin-top:26px;padding-top:18px;border-top:1px solid var(--rule);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
-.wempty{margin-top:16px;padding:16px;border-radius:16px;background:var(--sky0);color:var(--mute);font-size:14.5px;line-height:1.5}
-.wall .more{margin-top:16px;height:44px;font-size:14px}
+.wempty{margin:22px auto 0;max-width:280px;color:var(--blu-l);font-size:14.5px;line-height:1.5}
+.wall .more{margin-top:24px;height:44px;font-size:14px;color:#fff;background:rgba(255,255,255,.1);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.25)}
+.wall .more:hover{background:rgba(255,255,255,.18)}
 .rsvp.answered .done{display:block}
 
 /* footer */
@@ -377,7 +382,7 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
     <symbol id="d-books" viewBox="0 0 24 24"><rect style="fill:var(--ac)" x="8.6" y="2.8" width="11" height="14.4" rx="2" transform="rotate(8 14 10)"/><rect x="4.4" y="6.4" width="11" height="14.6" rx="2" style="fill:var(--tile)"/><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M6.4 6.4h7a2 2 0 0 1 2 2V19a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2V8.4a2 2 0 0 1 2-2zM7.6 11h5.6M7.6 14h5.6M7.6 17h3.2"/></symbol>
     <symbol id="d-award" viewBox="0 0 24 24"><circle style="fill:var(--ac)" cx="12" cy="9.4" r="5.2"/><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" d="M12 2.8a6.6 6.6 0 1 1 0 13.2 6.6 6.6 0 0 1 0-13.2zM8.3 14.9 6.9 21l5.1-2.6 5.1 2.6-1.4-6.1M9.5 9.5l1.7 1.7 3.3-3.3"/></symbol>
     <symbol id="i-cam" viewBox="0 0 24 24"><path d="M4 8.5A2.5 2.5 0 0 1 6.5 6h1.6l1.4-2h5l1.4 2h1.6A2.5 2.5 0 0 1 20 8.5v8a2.5 2.5 0 0 1-2.5 2.5h-11A2.5 2.5 0 0 1 4 16.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="12.4" r="3.4" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
-    <symbol id="i-leafl" viewBox="0 0 40 40"><path d="M7 33C6 19 15 8 34 6c1 17-8 28-27 27zM7 33 26 14M3 37l4-4M13 27v-6M13 27h6M19 21v-6M19 21h6" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></symbol>
+    <symbol id="i-leafl" viewBox="0 0 40 40"><path d="M7 33C6 19 15 8 34 6c1 17-8 28-27 27z" fill="currentColor" fill-opacity=".18"/><path d="M7 33C6 19 15 8 34 6c1 17-8 28-27 27zM7 33 26 14M3 37l4-4M13 27v-6M13 27h6M19 21v-6M19 21h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></symbol>
     <symbol id="i-bin" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6.5 7l1 13h9l1-13M10 11v6M14 11v6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 5v14m0 0l-6-6m6 6l6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   </defs>
@@ -385,12 +390,12 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
 
 <div class="leaves" aria-hidden="true">
   <i style="--x:3%;--s:30px;--d:34s;--t:-9s;--dx:24px;--y:34svh;--c:var(--leaf2)"><svg><use href="#i-leafl"/></svg></i>
-  <i style="--x:13%;--s:22px;--d:27s;--t:-21s;--dx:-18px;--y:62svh;--c:var(--blu)"><svg><use href="#i-leafl"/></svg></i>
+  <i style="--x:13%;--s:22px;--d:27s;--t:-21s;--dx:-18px;--y:62svh;--c:#7FB241"><svg><use href="#i-leafl"/></svg></i>
   <i style="--x:83%;--s:26px;--d:30s;--t:-3s;--dx:-26px;--y:22svh;--c:var(--leaf)"><svg><use href="#i-leafl"/></svg></i>
   <i style="--x:91%;--s:32px;--d:38s;--t:-25s;--dx:-14px;--y:52svh;--c:var(--leaf2)"><svg><use href="#i-leafl"/></svg></i>
   <i style="--x:8%;--s:36px;--d:41s;--t:-31s;--dx:30px;--y:12svh;--c:var(--leaf)"><svg><use href="#i-leafl"/></svg></i>
   <i style="--x:20%;--s:24px;--d:29s;--t:-14s;--dx:16px;--y:44svh;--c:var(--leaf2)"><svg><use href="#i-leafl"/></svg></i>
-  <i style="--x:76%;--s:34px;--d:36s;--t:-18s;--dx:22px;--y:40svh;--c:var(--blu)"><svg><use href="#i-leafl"/></svg></i>
+  <i style="--x:76%;--s:34px;--d:36s;--t:-18s;--dx:22px;--y:40svh;--c:#7FB241"><svg><use href="#i-leafl"/></svg></i>
   <i style="--x:88%;--s:22px;--d:26s;--t:-7s;--dx:-20px;--y:70svh;--c:var(--leaf)"><svg><use href="#i-leafl"/></svg></i>
 </div>
 
@@ -466,6 +471,17 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
     <a class="btn b-ghost full" href="#details">See the details</a>
   </div>
 </header>
+
+<!-- ============ GUEST WALL ============ -->
+<section class="wall" id="wall" aria-labelledby="wl-h" hidden>
+  <svg class="wl-bg" viewBox="0 0 680 300" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="340" cy="760" r="680"/><ellipse cx="340" cy="760" rx="230" ry="680"/><ellipse cx="340" cy="760" rx="460" ry="680"/><ellipse cx="340" cy="760" rx="680" ry="560"/><ellipse cx="340" cy="760" rx="680" ry="440"/></g></svg>
+  <svg class="wl-lf a" aria-hidden="true"><use href="#i-leafl"/></svg>
+  <p class="k">Green Pakistan Expo 2026</p>
+  <h2 class="h2" id="wl-h">Our <em>guest wall</em></h2>
+  <div class="wgrid" id="wl-all"></div>
+  <p class="wempty" id="wl-empty" hidden>Accept the invitation and your photo starts our guest wall.</p>
+  <button class="btn full more" id="wl-more" type="button" hidden></button>
+</section>
 
 <!-- ============ DETAILS (tap to open) ============ -->
 <section class="sec" id="details" aria-labelledby="dt-h">
@@ -603,18 +619,6 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
       </div>
     </details>
   </div>
-</section>
-
-<!-- ============ GUEST WALL ============ -->
-<section class="wall" id="wall" aria-labelledby="wl-h" hidden>
-  <p class="k">Guest wall</p>
-  <h2 class="h2" id="wl-h" style="margin-top:6px">Who's <em>coming</em></h2>
-  <p class="cnt" id="wl-cnt" aria-live="polite"></p>
-  <div class="wgrid" id="wl-yes"></div>
-  <p class="wempty" id="wl-empty" hidden>Be the first to accept. Your photo and name will appear here.</p>
-  <p class="wsub" id="wl-inv-h" hidden>Also invited</p>
-  <div class="wgrid" id="wl-inv"></div>
-  <button class="btn b-ghost full more" id="wl-more" type="button" hidden></button>
 </section>
 
 <!-- ============ RSVP ============ -->
@@ -916,11 +920,11 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
   });
   $("#ph-back").addEventListener("click", () => { $("#rsvp").classList.remove("photo"); $("#yes").focus(); });
 
-  // ---- guest wall: accepted guests with their photos, then everyone invited; checks for new faces every 20 s ----
+  // ---- guest wall: everyone invited or accepted, photos first; checks for new faces every 20 s ----
   const initials = n => n.replace(/^(mr|mrs|ms|miss|dr|engr|prof|haji|mian|syed|ch)\.?\s+/i, "").split(" ").filter(Boolean).slice(0, 2).map(w => w[0]).join("").toUpperCase();
   const seen = new Set(); let wallRows = [], wallSig = "", showAll = false;
-  function card(g, inv) {
-    const d = document.createElement("div"); d.className = "wg" + (inv ? " inv" : "") + (seen.size && !seen.has(g.k) ? " new" : "");
+  function card(g, i) {
+    const d = document.createElement("div"); d.className = "wg" + (seen.size && !seen.has(g.k) ? " new" : ""); d.style.setProperty("--i", i);
     const a = document.createElement("div"); a.className = "av";
     if (g.photo) { const im = new Image(); im.src = SB + "/storage/v1/object/public/expo-guests/" + g.photo; im.alt = ""; im.loading = "lazy"; im.decoding = "async"; a.append(im); }
     else a.textContent = initials(g.name);
@@ -930,13 +934,10 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
     return d;
   }
   function drawWall() {
-    const yes = wallRows.filter(g => g.status === "accepted"), inv = wallRows.filter(g => g.status === "invited");
-    $("#wl-cnt").textContent = yes.length ? yes.length + (yes.length === 1 ? " guest has" : " guests have") + " accepted so far." : "";
-    $("#wl-yes").replaceChildren(...yes.map(g => card(g)));
-    $("#wl-empty").hidden = yes.length > 0;
-    $("#wl-inv").replaceChildren(...(showAll ? inv : inv.slice(0, 12)).map(g => card(g, true)));
-    $("#wl-inv-h").hidden = !inv.length;
-    $("#wl-more").hidden = showAll || inv.length <= 12; $("#wl-more").textContent = "Show all " + inv.length + " invited guests";
+    const all = wallRows.filter(g => g.status !== "declined").sort((a, b) => !!b.photo - !!a.photo);
+    $("#wl-all").replaceChildren(...(showAll ? all : all.slice(0, 18)).map(card));
+    $("#wl-empty").hidden = all.length > 0;
+    $("#wl-more").hidden = showAll || all.length <= 18; $("#wl-more").textContent = "See all " + all.length + " guests";
     wallRows.forEach(g => seen.add(g.k)); $("#wall").hidden = false;
   }
   function loadWall() {
@@ -950,7 +951,7 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
   ["wheel", "touchstart", "keydown", "mousedown"].forEach(t => addEventListener(t, () => { touched = true; }, { once: true, passive: true }));
   setTimeout(() => {
     if (touched || scrollY > 8) return;
-    const by = Math.min($("#cta-go").getBoundingClientRect().bottom + 18 - innerHeight, $("#name").getBoundingClientRect().top - 10);
+    const by = $("#cta-go").getBoundingClientRect().bottom + 18 - innerHeight;
     if (by > 0) scrollTo({ top: by, behavior: still ? "auto" : "smooth" });
   }, 2300);
 
