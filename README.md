@@ -18,7 +18,7 @@ Tti Sustainability Center invitation page for Green Pakistan Expo 2026: 26 to 28
 
 "Accept the invitation" opens a second step: an optional photo for the guest wall (shrunk to 480 px square in the browser and uploaded at once), plus name and company fields when the link carries no name. "Send my reply on WhatsApp" then opens WhatsApp to Naeem A. Butt (+92 301 114 9706) with a prefilled message (name, designation, company, day, topics; nothing is sent until the guest presses send) and records the reply. Decline skips the photo. The guest's choice is remembered in their browser (localStorage) and "Change response" clears it; a changed reply updates the same row.
 
-The "Who's coming" wall sits above the RSVP card: accepted guests first (photo, or initials), then "Also invited" (first 12, then "Show all"). It refreshes every 20 s while the tab is visible and pops in new faces.
+The "Who's coming" wall sits above the RSVP card: accepted guests first (photo, or initials), then "Also invited" (photo from the nightly research job, or initials; first 12, then "Show all"). It refreshes every 20 s while the tab is visible and pops in new faces.
 
 ### Backend (Supabase)
 
@@ -26,13 +26,26 @@ The "Who's coming" wall sits above the RSVP card: accepted guests first (photo, 
 - `public.expo_guests` (name, company, designation, status invited/accepted/declined, photo, days, hidden, source maker/rsvp, token) and `public.expo_settings` are closed to the public (RLS on, no grants); the page uses only these functions: `expo_wall()` (public list, no ids), `expo_rsvp(...)` (insert or update by invite id or by the browser's own id + token), and the passcode-checked `expo_add_invites`, `expo_admin_list`, `expo_admin_hide`.
 - Photos: public bucket `expo-guests`, webp/jpeg up to 700 KB, uuid file names; anyone may add a file, nobody may overwrite or delete one through the API. Remove photos in the Supabase dashboard (Storage).
 - The page uses the publishable key `sb_publishable_X6El...` (public by design).
+- Migration `expo_admin_update` (29 Oct 2026) adds the column `researched_at` and the passcode-checked `expo_admin_update(p_pass, p_id, p_designation, p_photo)`. A null argument keeps that field and `''` clears it. The photo must already be in the bucket, declined rows are refused, and every call stamps `researched_at`. `expo_admin_list` now also returns `researched_at`.
+
+### Nightly research job (photos and designations for invited guests)
+
+The team adds name and company (designation optional) in the link maker. Every night at 9 pm PKT the scheduled task `expo-guest-wall-research` researches each invited guest who still has no photo or designation, and puts what it finds on the wall at once. The task lives in the Claude desktop app under Scheduled; its prompt is `C:\Users\muhammad.suhaib\.claude\scheduled-tasks\expo-guest-wall-research\SKILL.md`. Per the user's decision, there is no consent step: invited guests show with photo, name, designation and company. The task runs only while the desktop app is open; a missed run starts on the next launch.
+
+- Sources: the company's own website and official pages, reputable news, event or speaker pages, and chamber or association pages; the designation may also come from public search snippets. Never LinkedIn pages, personal social accounts, private or logged-in pages, or stock or image-search guesses. The source page must name the person together with the company; when in doubt, the field stays empty.
+- A designation the team typed is never replaced. Guests with nothing found are retried after 3 days. Each run handles up to 40 guests.
+- Tool: `python ..\src\wall_update.py todo`, `set ID [--designation TEXT --designation-src URL] [--photo FILE_OR_URL --photo-src URL --crop X,Y,SIZE]` and `none ID`. It reads the passcode from `..\TEAM-PASSCODE.txt`, crops to a 480 px square webp, uploads under a uuid name and logs every change with its source to `..\research-log.csv` (created on the first change).
+- Each run ends with a short report: what was added, what was not found, and anything to check.
+- Wrong picture: link maker > Guest wall > **Change photo** (upload, cropped in the browser like the RSVP page) or **Remove photo** (back to initials). **Shown · hide** takes the guest off the wall entirely.
+- ttilabs.net does not load from this PC (local DNS sends it to an internal address), so the job cannot look up Tti staff on our own site.
 
 ## Files
 
 | Path | What |
 |---|---|
 | `index.html` | Invitation page. The first screen holds the logo; below it, a line globe with accurate Natural Earth coastlines (orthographic, centred on 70°E 15°S, Lahore marked with a pulsing point) and a sprout on its horizon. The globe is static SVG built by `../src/make_globe.py` and animated in CSS: the rim, grid and coastlines draw in, then the stem and leaves, and the leaves sway. Then come the guest's name, the event, the dates, and the dual countdown: an analog stopwatch (crown and pushers; the green hand sweeps each minute, a lime arc shows what is left of it, and small dials show the hours and minutes left), next to split-flap countdown tiles (days, hours, minutes, seconds) that switch to "Open now · closes in" during the expo and to a thank-you after it. Last on this screen is the green reply button. All motion pauses off-screen and steps or stays still under reduced motion. Six tap-to-open panels hold the rest: what we'll show you, when (days and calendar links), where (the map loads only when this panel is opened), brochures, about Tti Labs and your host. Then come the guest wall, the RSVP card, the footer, and a sticky Reply button that appears once the hero reply button has scrolled away. |
-| `make.html` | Personal link maker and guest wall controls (noindex). |
+| `make.html` | Personal link maker and guest wall controls: hide or show a guest, change or remove a photo (noindex). |
+| `../src/wall_update.py` | Helper for the nightly research job and manual fixes (see Nightly research job). |
 | `../src/make_globe.py` | Rebuilds `../src/globe.svg` from `../data/land-110m.json` (world-atlas 2.0.2, Natural Earth 110m, public domain). Paste the result over `<svg id="globe">` in index.html and og.html. |
 | `assets/img/og.png` | 1200×630 link-preview card. Source: `../src/og.html`, which embeds `../src/globe.svg`; rendered with Playwright over http. |
 | `assets/img/*` | Tti logo (`tti-logo.webp`, 640 px, from the user's own file saved as `../src/tti-logo-user.png`, used unaltered), light lockup (`tti-lockup-light.webp`), OneClickESG and Greenbud logos, and brochure covers (webp, 420×594). |
@@ -65,3 +78,4 @@ The countdown and the "Today" badge use fixed PKT (UTC+5) times. Change `OPEN`, 
 - 2026-10-28 v5.8: the detail rows use bespoke duotone icons (navy line plus one lime accent: flask, calendar, pin, brochures, award) on soft gradient tiles; open rows turn navy. Naeem A. Butt's portrait (assets/img/naeem.webp, 192 px crop of the team's photo) is the "Your host" row icon and sits beside the RSVP note.
 - 2026-10-29 v5.9: about 2.3 s after the page opens it glides down so the clock and the green "Reply to the invitation" button fill the first screen, with the button at the bottom edge (never past the guest's name; skipped if the guest already scrolled, tapped or opened a #section link; instant under reduced motion). The floating reply button appears only once that button scrolls away. ESG card drops the Scope 1, 2 and 3 line; the GHG prompt no longer asks for 12 months of records.
 - 2026-10-29 v6.0: guest wall on Supabase. Accept now asks for an optional photo before WhatsApp; accepted guests appear live with photo, name, designation and company; the link maker saves every invited guest (with the team passcode) and adds `d` and `i` to links; team panel to hide entries. WhatsApp messages carry designation and company.
+- 2026-10-29 v6.1: a 9 pm research job adds photos and designations for invited guests (migration `expo_admin_update`, `../src/wall_update.py`, scheduled task `expo-guest-wall-research`). The team panel gains Change photo and Remove photo for each guest.
