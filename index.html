@@ -417,7 +417,6 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
   </div>
 
   <div class="cta" id="cta">
-    <a class="btn b-go full" href="#rsvp"><svg><use href="#i-wa"/></svg>Reply to the invitation</a>
     <a class="btn b-ghost full" href="#details">See the details</a>
   </div>
 </header>
@@ -449,7 +448,6 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
           <p>ESG reporting software from our partner Greenbud, with lab-measured data behind the numbers.</p>
           <ul>
             <li>Monthly energy, water, waste and social data</li>
-            <li>Scope 1, 2 and 3 carbon footprint, calculated</li>
             <li>Evidence kept behind every number</li>
             <li>Reports aligned with GRI, IFRS S1 and S2, and CSRD</li>
           </ul>
@@ -465,7 +463,7 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
             <li><span><b>Net Zero Strategies:</b> SBTi-aligned target setting, decarbonization roadmaps, and carbon credit advisory.</span></li>
             <li><span><b>Sustainability Services:</b> Higg FEM verification support, LCA, and reporting aligned with GRI, ESRS, and IFRS S1/S2.</span></li>
           </ul>
-          <p class="bring"><b>Start Your Carbon Assessment.</b> Share 12 months of electricity and fuel records to begin your Scope 1 &amp; 2 emissions assessment.</p>
+          <p class="bring"><b>Start Your Carbon Assessment.</b> Share your electricity and fuel records and we'll begin your Scope 1 &amp; 2 emissions assessment.</p>
         </div>
         <div class="s">
           <p class="tag">Environment · ZDHC · EPA</p>
@@ -784,11 +782,11 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
     $("#rsvp").scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
-  // ---- sticky reply button: appears once the hero buttons scroll away, hides at the RSVP card ----
-  let ctaVis = true, rsvpVis = false;
-  function dockUpd() { $("#dock").classList.toggle("on", !ctaVis && !rsvpVis && !$("#rsvp").classList.contains("answered")); }
+  // ---- sticky reply button: rises with the hero intro, hides at the RSVP card and once answered ----
+  let ready = false, rsvpVis = false;
+  function dockUpd() { $("#dock").classList.toggle("on", ready && !rsvpVis && !$("#rsvp").classList.contains("answered")); }
+  setTimeout(() => { ready = true; dockUpd(); }, 1700);
   if ("IntersectionObserver" in window) {
-    new IntersectionObserver(([e]) => { ctaVis = e.isIntersecting || e.boundingClientRect.top > 0; dockUpd(); }).observe($("#cta"));
     new IntersectionObserver(([e]) => { rsvpVis = e.isIntersecting; dockUpd(); }, { threshold: .15 }).observe($("#rsvp"));
   }
 
