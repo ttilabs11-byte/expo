@@ -85,6 +85,7 @@ tr.hid td:not(.a){opacity:.45}
   <div class="box">
     <label>Guest wall <span>· everyone invited and every reply</span></label>
     <div class="row" style="margin-top:4px"><button class="btn b-ghost" id="wl-load" type="button">Load the guest list</button><a class="btn b-ghost" href="./#wall" target="_blank" rel="noopener">Open the wall</a></div>
+    <p class="tip">Every night at 9 pm a research job looks up the photo and designation of invited guests who don't have them yet. A designation you type here is never replaced. Use <b>Change photo</b> or <b>Remove photo</b> if a picture is wrong.</p>
     <p class="tip" id="wl-sum"></p>
     <table id="wl-tab" hidden>
       <thead><tr><th></th><th>Guest</th><th>Reply</th><th style="text-align:right">On the wall</th></tr></thead>
@@ -173,8 +174,36 @@ tr.hid td:not(.a){opacity:.45}
       const hb = document.createElement("button"); hb.type = "button"; hb.className = "btn sm " + (g.hidden ? "b-ink" : "b-ghost");
       hb.textContent = g.status === "declined" ? "Not shown" : g.hidden ? "Hidden · show" : "Shown · hide"; hb.disabled = g.status === "declined";
       hb.onclick = async () => { try { await rpc("expo_admin_hide", { p_pass: pass(), p_id: g.id, p_hidden: !g.hidden }); toast(g.hidden ? "Back on the wall" : "Hidden from the wall"); wall(); } catch (e) { toast("Couldn't change it: " + e.message); } };
-      ta.append(hb); tr.append(tp, tn, tst, ta); out.append(tr);
+      ta.append(hb);
+      if (g.status !== "declined") {
+        const pk = document.createElement("label"); pk.className = "btn sm b-ghost"; pk.textContent = g.photo ? "Change photo" : "Add photo";
+        const fi = document.createElement("input"); fi.type = "file"; fi.accept = "image/*"; fi.hidden = true; pk.append(fi);
+        fi.onchange = async () => {
+          const f = fi.files[0]; if (!f) return; pk.firstChild.textContent = "Uploading…";
+          try { await setPhoto(g.id, await upload(f)); toast("Photo saved"); wall(); } catch (e) { toast("Couldn't save the photo: " + e.message); pk.firstChild.textContent = g.photo ? "Change photo" : "Add photo"; }
+        };
+        ta.append(pk);
+        if (g.photo) {
+          const rb = document.createElement("button"); rb.type = "button"; rb.className = "btn sm b-ghost"; rb.textContent = "Remove photo";
+          rb.onclick = async () => { try { await setPhoto(g.id, ""); toast("Photo removed, initials show instead"); wall(); } catch (e) { toast("Couldn't change it: " + e.message); } };
+          ta.append(rb);
+        }
+      }
+      tr.append(tp, tn, tst, ta); out.append(tr);
     });
+  }
+  // ---- per-row photo: shrunk to 480 px square in the browser (same crop as the RSVP page), uploaded under a uuid name ----
+  const setPhoto = (id, photo) => rpc("expo_admin_update", { p_pass: pass(), p_id: id, p_designation: null, p_photo: photo });
+  async function upload(f) {
+    const im = await new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = () => no(new Error("not an image")); i.src = URL.createObjectURL(f); });
+    const w = im.naturalWidth, h = im.naturalHeight, sd = Math.min(w, h), c = document.createElement("canvas"); c.width = c.height = 480;
+    c.getContext("2d").drawImage(im, (w - sd) / 2, Math.max(0, (h - sd) * .3), sd, sd, 0, 0, 480, 480); URL.revokeObjectURL(im.src);
+    let b = await new Promise(r => c.toBlob(r, "image/webp", .82));
+    if (!b || b.type !== "image/webp") b = await new Promise(r => c.toBlob(r, "image/jpeg", .85));
+    const fn = crypto.randomUUID() + (b.type === "image/webp" ? ".webp" : ".jpg");
+    const r = await fetch(SB + "/storage/v1/object/expo-guests/" + fn, { method: "POST", headers: { apikey: SBK, "Content-Type": b.type, "x-upsert": "false" }, body: b });
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    return fn;
   }
   $("#wl-load").onclick = wall;
 })();
