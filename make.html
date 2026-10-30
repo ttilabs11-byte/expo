@@ -60,12 +60,12 @@ tr.hid td:not(.a){opacity:.45}
 <div class="w">
   <header><img src="assets/img/tti-logo.webp" alt="Tti Labs" width="48" height="37" style="width:48px;height:auto"><div class="k">Sustainability Center · Green Pakistan Expo 2026</div></header>
   <h1>Invitation link maker</h1>
-  <p class="l">One guest per line, as <b>Name, Company, Designation</b> (company and designation are optional), or paste the columns straight from Excel. Each guest gets a personal link that opens their own invitation, and is saved to the invited list on the guest wall.</p>
+  <p class="l">One guest per line, as <b>Name, Company, Designation</b> (designation is optional), or paste the columns straight from Excel. Each guest gets a personal link that opens their own invitation, and is saved to the invited list on the guest wall.</p>
 
   <div class="box">
     <div class="pass"><label for="pass" style="margin:0">Team passcode</label><input id="pass" type="password" autocomplete="off" placeholder="Needed to save the list"></div>
     <label for="names">Guests <span>· one per line</span></label>
-    <textarea id="names" placeholder="Mr. Ahmed Raza, Nishat Mills, CEO&#10;Ms. Sana Iqbal, Interloop Limited&#10;Dr. Faisal Khan"></textarea>
+    <textarea id="names" placeholder="Mr. Ahmed Raza, Nishat Mills, CEO&#10;Ms. Sana Iqbal, Interloop Limited&#10;Dr. Faisal Khan, Crescent Textile Mills"></textarea>
     <div class="row">
       <button class="btn b-ink" id="go" type="button">Make links</button>
       <button class="btn b-ghost" id="copyall" type="button">Copy all messages</button>
@@ -113,10 +113,13 @@ tr.hid td:not(.a){opacity:.45}
   const said = (t, ok) => { const el = $("#saved"); el.textContent = t; el.className = "tip " + (ok ? "ok" : "bad"); };
 
   async function parse() {
-    rows = $("#names").value.split(/\r?\n/).map(l => l.trim()).filter(Boolean).map(l => {
+    const list = $("#names").value.split(/\r?\n/).map(l => l.trim()).filter(Boolean).map(l => {
       const parts = (l.includes("\t") ? l.split("\t") : l.split(",")).map(v => v.trim());
       return { n: parts[0] || "", c: parts[1] || "", d: parts.slice(2).filter(Boolean).join(", ") };
     }).filter(r => r.n);
+    const miss = list.filter(r => !r.c);
+    if (miss.length) { said("Add the company for " + miss.map(r => r.n).join(", ") + ". Every guest needs a company; nothing was saved.", false); return; }
+    rows = list;
     if (rows.length) {
       try {
         const ids = await rpc("expo_add_invites", { p_pass: pass(), p_rows: rows.map(r => ({ n: r.n, c: r.c, d: r.d })) });

@@ -669,7 +669,7 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
     <p class="as" id="ph-as" hidden></p>
     <div id="ph-fields" hidden>
       <label class="fld"><span>Your name</span><input id="f-name" autocomplete="name" maxlength="80"></label>
-      <label class="fld"><span>Company <i>(optional)</i></span><input id="f-co" autocomplete="organization" maxlength="80"></label>
+      <label class="fld"><span>Company</span><input id="f-co" autocomplete="organization" maxlength="80"></label>
     </div>
     <div class="acts">
       <button class="btn b-go full" id="send" type="button"><svg><use href="#i-wa"/></svg><span>Send my reply on WhatsApp</span></button>
@@ -913,8 +913,10 @@ footer .fine{margin-top:16px;font-size:11px;color:#7D8BA1}
   $("#send").addEventListener("click", () => {
     if (!name) {
       const v = clean($("#f-name").value);
-      if (!v) { $("#f-name").setAttribute("aria-invalid", "true"); $("#f-name").focus(); return; }
-      $("#f-name").removeAttribute("aria-invalid"); gName = v; gCo = clean($("#f-co").value);
+      const co = clean($("#f-co").value);
+      [["#f-name", v], ["#f-co", co]].forEach(([f, ok]) => ok ? $(f).removeAttribute("aria-invalid") : $(f).setAttribute("aria-invalid", "true"));
+      if (!v || !co) { $(v ? "#f-co" : "#f-name").focus(); return; }
+      gName = v; gCo = co;
     }
     reply(true);
   });
